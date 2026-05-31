@@ -10,11 +10,12 @@ type DetailTab = 'lessons' | 'passport' | 'teacher';
 interface CountryDetailProps {
   country: CountryConfig;
   level: Level;
+  isLessonComplete: (countryId: string, lessonId: string) => boolean;
   onBack: () => void;
   onLessonClick: (lesson: Lesson) => void;
 }
 
-export function CountryDetail({ country, level, onBack, onLessonClick }: CountryDetailProps) {
+export function CountryDetail({ country, level, isLessonComplete, onBack, onLessonClick }: CountryDetailProps) {
   const [activeTab, setActiveTab] = useState<DetailTab>('lessons');
 
   const tabs: { id: DetailTab; label: string; icon: React.ElementType }[] = [
@@ -103,6 +104,7 @@ export function CountryDetail({ country, level, onBack, onLessonClick }: Country
               lesson={lesson}
               level={level}
               index={i}
+              isComplete={isLessonComplete(country.id, lesson.id)}
               onClick={() => onLessonClick(lesson)}
             />
           ))}

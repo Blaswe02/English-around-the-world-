@@ -1,4 +1,4 @@
-import { ExternalLink, Clock } from 'lucide-react';
+import { ExternalLink, Clock, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { LESSON_TYPE_LABELS, LESSON_TYPE_COLORS, SKILL_LABELS, SKILL_COLORS } from '../../data/lessonTypes';
 import type { Lesson, Level } from '../../types/curriculum';
@@ -7,12 +7,13 @@ interface LessonCardProps {
   lesson: Lesson;
   level: Level;
   index: number;
+  isComplete?: boolean;
   onClick: () => void;
 }
 
-export function LessonCard({ lesson, level, index, onClick }: LessonCardProps) {
+export function LessonCard({ lesson, level, index, isComplete, onClick }: LessonCardProps) {
   const isForLevel = lesson.levels.includes(level);
-  const isAvailable = !!lesson.url && isForLevel;
+  const isAvailable = (!!lesson.url || !!lesson.internalLessonId) && isForLevel;
 
   return (
     <motion.button
@@ -35,9 +36,14 @@ export function LessonCard({ lesson, level, index, onClick }: LessonCardProps) {
         <div className="flex-1 min-w-0">
           {/* Title row */}
           <div className="flex items-start justify-between gap-2">
-            <h4 className="font-bold text-slate-900 leading-snug">{lesson.title}</h4>
+            <div className="flex items-center gap-2">
+              <h4 className="font-bold text-slate-900 leading-snug">{lesson.title}</h4>
+              {isComplete && <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />}
+            </div>
             {isAvailable ? (
-              <ExternalLink className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+              lesson.internalLessonId
+                ? <span className="text-xs font-bold text-indigo-600 shrink-0 mt-0.5 bg-indigo-50 px-2 py-0.5 rounded-full">Start →</span>
+                : <ExternalLink className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
             ) : !isForLevel ? (
               <span className="text-xs text-slate-400 shrink-0 mt-0.5">Ander niveau</span>
             ) : (

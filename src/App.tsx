@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { BarChart3, Settings } from 'lucide-react';
 import { Sidebar } from './components/Layout/Sidebar';
@@ -6,10 +6,18 @@ import { Header } from './components/Layout/Header';
 import { DashboardHome } from './components/Dashboard/DashboardHome';
 import { CountryGrid } from './components/Countries/CountryGrid';
 import { CountryDetail } from './components/Countries/CountryDetail';
+import { LessonPlayer } from './components/Lessons/LessonPlayer';
 import { PassportOverview } from './components/Passport/PassportOverview';
 import { TeacherDashboard } from './components/Teacher/TeacherDashboard';
 import { Modal } from './components/UI/Modal';
+import { NicknameModal } from './components/UI/NicknameModal';
 import { COUNTRIES, LEVELS } from './data/countries';
+import {
+  getSessionKey,
+  setSessionKey,
+  isLocallyComplete,
+  loadProgressFromSupabase,
+} from './services/progress';
 import type { Level, NavItem, CountryConfig, CountryStatus, Lesson } from './types/curriculum';
 
 export default function App() {
@@ -17,7 +25,33 @@ export default function App() {
   const [activeNav, setActiveNav] = useState<NavItem>('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState<CountryConfig | null>(null);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [modal, setModal] = useState<{ title: string; message: string } | null>(null);
+  const [showNickname, setShowNickname] = useState(false);
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
+
+  // Show nickname modal if no session key yet
+  useEffect(() => {
+    if (!getSessionKey()) setShowNickname(true);
+  }, []);
+
+  // Load progress from Supabase on mount and level change
+  useEffect(() => {
+    loadProgressFromSupabase(level).then(setCompletedLessons);
+  }, [level]);
+
+  const handleNickname = (nickname: string) => {
+    setSessionKey(nickname);
+    setShowNickname(false);
+    loadProgressFromSupabase(level).then(setCompletedLessons);
+  };
+
+  const isLessonComplete = (countryId: string, lessonId: string): boolean => {
+    return (
+      completedLessons.has(`${countryId}__${lessonId}`) ||
+      isLocallyComplete(countryId, lessonId, level)
+    );
+  };
 
   const getCountryStatus = (country: CountryConfig): CountryStatus => {
     const completed =
@@ -35,6 +69,7 @@ export default function App() {
       return;
     }
     setSelectedCountry(country);
+    setSelectedLesson(null);
     setActiveNav('eaatw');
   };
 
@@ -46,25 +81,40 @@ export default function App() {
       });
       return;
     }
-    if (!lesson.url) {
+    const hasContent = lesson.url || lesson.internalLessonId;
+    if (!hasContent) {
       setModal({
         title: 'Binnenkort beschikbaar',
         message: `"${lesson.title}" wordt momenteel ontwikkeld. Kom snel terug!`,
       });
       return;
     }
-    window.open(lesson.url, '_blank', 'noopener,noreferrer');
+    // Open external links in new tab if no iframe/inline support
+    if (lesson.url && !lesson.internalLessonId) {
+      window.open(lesson.url, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    setSelectedLesson(lesson);
   };
 
   const handleNavChange = (nav: NavItem) => {
     setActiveNav(nav);
     setSelectedCountry(null);
+    setSelectedLesson(null);
+  };
+
+  const handleLessonBack = () => {
+    setSelectedLesson(null);
+    // Refresh progress after returning from a lesson
+    loadProgressFromSupabase(level).then(setCompletedLessons);
   };
 
   const currentCountry = COUNTRIES.find((c) => c.status === 'current') ?? COUNTRIES[0];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 flex">
+      {showNickname && <NicknameModal onConfirm={handleNickname} />}
+
       <Sidebar
         activeNav={activeNav}
         isOpen={isSidebarOpen}
@@ -79,19 +129,32 @@ export default function App() {
 
         <main className="p-8">
           <AnimatePresence mode="wait">
-            {activeNav === 'dashboard' && (
+
+            {/* ── Lesson player (takes over full content area) ── */}
+            {activeNav === 'eaatw' && selectedCountry && selectedLesson && (
+              <LessonPlayer
+                key={`lesson-${selectedLesson.id}`}
+                lesson={selectedLesson}
+                countryId={selectedCountry.id}
+                level={level}
+                onBack={handleLessonBack}
+              />
+            )}
+
+            {activeNav === 'dashboard' && !selectedLesson && (
               <DashboardHome
                 key="dashboard"
                 level={level}
                 countries={COUNTRIES}
                 currentCountry={currentCountry}
                 getCountryStatus={getCountryStatus}
+                isLessonComplete={isLessonComplete}
                 onCountryClick={handleCountryClick}
                 onNavigate={handleNavChange}
               />
             )}
 
-            {activeNav === 'eaatw' && !selectedCountry && (
+            {activeNav === 'eaatw' && !selectedCountry && !selectedLesson && (
               <CountryGrid
                 key="eaatw-grid"
                 countries={COUNTRIES}
@@ -101,11 +164,12 @@ export default function App() {
               />
             )}
 
-            {activeNav === 'eaatw' && selectedCountry && (
+            {activeNav === 'eaatw' && selectedCountry && !selectedLesson && (
               <CountryDetail
                 key={`country-${selectedCountry.id}`}
                 country={selectedCountry}
                 level={level}
+                isLessonComplete={isLessonComplete}
                 onBack={() => setSelectedCountry(null)}
                 onLessonClick={handleLessonClick}
               />
@@ -124,9 +188,10 @@ export default function App() {
               <TeacherDashboard key="teacher" countries={COUNTRIES} level={level} />
             )}
 
-            {(activeNav === 'progress' || activeNav === 'settings') && (
+            {(activeNav === 'progress' || activeNav === 'settings') && !selectedLesson && (
               <PlaceholderPage key={activeNav} navId={activeNav} />
             )}
+
           </AnimatePresence>
         </main>
       </div>

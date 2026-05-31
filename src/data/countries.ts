@@ -68,6 +68,7 @@ export const COUNTRIES: CountryConfig[] = [
         icon: '🍜',
         estimatedTime: '30 min',
         output: 'Food vocabulary list + oral recommendation',
+        internalLessonId: 'sg-hawker-inline',
       },
       {
         id: 'sg-singlish',
@@ -80,6 +81,7 @@ export const COUNTRIES: CountryConfig[] = [
         icon: '💬',
         estimatedTime: '40 min',
         output: 'Singlish phrasebook entry',
+        internalLessonId: 'sg-singlish-inline',
       },
       {
         id: 'sg-mrt',
@@ -92,6 +94,7 @@ export const COUNTRIES: CountryConfig[] = [
         icon: '🚇',
         estimatedTime: '25 min',
         output: 'Dialogue: asking for directions',
+        internalLessonId: 'sg-mrt-inline',
       },
       {
         id: 'sg-festivals',

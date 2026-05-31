@@ -8,6 +8,7 @@ interface DashboardHomeProps {
   countries: CountryConfig[];
   currentCountry: CountryConfig;
   getCountryStatus: (country: CountryConfig) => CountryStatus;
+  isLessonComplete: (countryId: string, lessonId: string) => boolean;
   onCountryClick: (country: CountryConfig) => void;
   onNavigate: (nav: NavItem) => void;
 }
@@ -17,6 +18,7 @@ export function DashboardHome({
   countries,
   currentCountry,
   getCountryStatus,
+  isLessonComplete,
   onCountryClick,
   onNavigate,
 }: DashboardHomeProps) {

@@ -59,6 +59,8 @@ export interface Lesson {
   estimatedTime?: string;
   output?: string;
   teacherNote?: string;
+  /** ID of an inline lesson component (no external URL needed) */
+  internalLessonId?: string;
 }
 
 export interface PassportGate {
