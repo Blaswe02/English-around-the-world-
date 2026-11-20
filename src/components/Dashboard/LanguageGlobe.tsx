@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
+import { DESTINATION_YEARS } from '../../data/countries';
 
 type Feature = {type:string; properties:{name:string;iso:string}; geometry:object};
 type Projection = { (point:[number,number]):[number,number]|null; scale(n:number):Projection; translate(p:[number,number]):Projection; rotate(p:[number,number,number]):Projection; clipAngle(n:number):Projection };
@@ -17,17 +18,21 @@ function loadD3():Promise<D3>{
  });
  return library;
 }
-// National official status, reviewed 20 November 2026. See public/data/globe-sources.md.
-// UK, Australia and Mauritius use English de facto and have a separate gold key.
-const official=new Set('USA CAN IRL NZL IND PAK PHL SGP FJI PNG SLB VUT WSM TON TUV KIR NRU PLW FSM MHL MLT NGA GHA GMB SLE LBR CMR KEN UGA TZA RWA BDI SSD SDN ZMB ZWE BWA NAM ZAF LSO SWZ MWI SYC BHS BRB BLZ GUY JAM TTO ATG DMA GRD KNA LCA VCT'.split(' '));
-const national=new Set(['GBR','AUS','MUS']);
-const smallStates:[string,number,number][]=[
- ['SGP',103.82,1.35],['MLT',14.38,35.94],['SYC',55.45,-4.62],['MUS',57.55,-20.2],
- ['BRB',-59.54,13.19],['ATG',-61.8,17.1],['DMA',-61.36,15.41],['GRD',-61.68,12.12],
- ['KNA',-62.75,17.3],['LCA',-60.98,13.91],['VCT',-61.2,13.25],
- ['TON',-175.2,-21.18],['TUV',179.2,-8.5],['KIR',172.98,1.45],['NRU',166.93,-0.52],
- ['PLW',134.5,7.5],['FSM',158.2,6.9],['MHL',171.38,7.1],['WSM',-172.1,-13.76]
+// The curriculum route is the source of truth, rather than English-language status.
+const routeIds = new Set<string>(DESTINATION_YEARS.flatMap(group => group.destinations.map(destination => destination.id)));
+const countryIsoByDestination: Record<string, string> = {
+ uk: 'GBR', australia: 'AUS', canada: 'CAN', usa: 'USA',
+ india: 'IND', ireland: 'IRL', 'south-africa': 'ZAF', 'new-zealand': 'NZL',
+ jamaica: 'JAM', malta: 'MLT', singapore: 'SGP',
+};
+const selectedCountries = new Set(Object.entries(countryIsoByDestination).filter(([id]) => routeIds.has(id)).map(([, iso]) => iso));
+const stateIds: Record<string, string> = { California: 'california', Hawaii: 'hawaii', 'New York': 'new-york', Texas: 'texas' };
+const smallDestinations: { id: string; name: string; point: [number, number]; state: boolean }[] = [
+ { id: 'singapore', name: 'Singapore', point: [103.82, 1.35], state: false },
+ { id: 'malta', name: 'Malta', point: [14.38, 35.94], state: false },
+ { id: 'hawaii', name: 'Hawaii', point: [-155.58, 19.9], state: true },
 ];
+
 
 export function LanguageGlobe(){
  const host=useRef<HTMLDivElement>(null);
@@ -40,7 +45,11 @@ export function LanguageGlobe(){
   const controller=new AbortController();let stop=false,frame=0;
   let observer:IntersectionObserver|undefined;
   const cleanups:(()=>void)[]=[];
-  Promise.all([loadD3(),fetch('/data/english-globe.json',{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Map unavailable');return r.json() as Promise<{features:Feature[]}>;})]).then(([d3,world])=>{
+  const loadMap = (url: string) => fetch(url, { signal: controller.signal }).then(response => {
+   if (!response.ok) throw new Error('Map unavailable');
+   return response.json() as Promise<{features:Feature[]}>;
+  });
+  Promise.all([loadD3(), loadMap('/data/english-globe.json'), loadMap('/data/curriculum-us-states.json')]).then(([d3,world,states])=>{
    if(stop||!svg.current)return;
    const root=svg.current;root.replaceChildren();
    const ns='http://www.w3.org/2000/svg';
@@ -50,8 +59,22 @@ export function LanguageGlobe(){
    [['0%','#357b7a'],['65%','#164b52'],['100%','#0d303c']].forEach(([offset,color])=>element('stop',{offset,'stop-color':color},gradient));
    element('circle',{cx:'210',cy:'210',r:'183',fill:'url(#eatw-ocean)',stroke:'#749b90','stroke-width':'1'});
    const grid=element('path',{fill:'none',stroke:'#c0ddd0','stroke-width':'.45',opacity:'.22'});
-   const countries=world.features.map(f=>({f,node:element('path',{fill:official.has(f.properties.iso)?'#f16d58':national.has(f.properties.iso)?'#e1b866':'#a5b9a2',stroke:'#183f42','stroke-width':'.55','stroke-linejoin':'round',...(official.has(f.properties.iso)?{class:'language-country-glow'}:{})})}));
-   const dots=smallStates.map(([iso,lon,lat])=>({iso,point:[lon,lat] as [number,number],node:element('circle',{r:'2.1',fill:official.has(iso)?'#ff8970':'#e1b866',stroke:'#173f42','stroke-width':'.4',class:'language-country-glow'})}));
+   const countries=world.features.map(f=>{
+    const selected=selectedCountries.has(f.properties.iso);
+    const node=element('path',{fill:selected?'#f16d58':'#a5b9a2',stroke:'#183f42','stroke-width':'.55','stroke-linejoin':'round',...(selected?{class:'language-country-glow'}:{})});
+    element('title',{},node).textContent=f.properties.name;
+    return {f,node};
+   });
+   const statePaths=states.features.filter(f=>routeIds.has(stateIds[f.properties.name])).map(f=>{
+    const node=element('path',{fill:'#e1b866',stroke:'#fff1cd','stroke-width':'.85','stroke-linejoin':'round',class:'language-country-glow'});
+    element('title',{},node).textContent=f.properties.name+' · Our destination';
+    return {f,node};
+   });
+   const dots=smallDestinations.filter(destination=>routeIds.has(destination.id)).map(destination=>{
+    const node=element('circle',{r:'2.3',fill:destination.state?'#e1b866':'#ff8970',stroke:'#173f42','stroke-width':'.4',class:'language-country-glow'});
+    element('title',{},node).textContent=destination.name+' · Our destination';
+    return {point:destination.point,node};
+   });
    element('circle',{cx:'210',cy:'210',r:'187',fill:'none',stroke:'#598d80','stroke-width':'.6',opacity:'.4'});
    const projection=d3.geoOrthographic().scale(183).translate([210,210]).clipAngle(90);
    const path=d3.geoPath(projection);
@@ -60,6 +83,7 @@ export function LanguageGlobe(){
     projection.rotate([longitude,latitude,0]);
     grid.setAttribute('d',path(d3.geoGraticule10())||'');
     countries.forEach(({f,node})=>node.setAttribute('d',path(f)||''));
+    statePaths.forEach(({f,node})=>node.setAttribute('d',path(f)||''));
     dots.forEach(({point,node})=>{const p=projection(point);const front=d3.geoDistance(point,[-longitude,-latitude])<Math.PI/2;node.setAttribute('visibility',front?'visible':'hidden');if(p){node.setAttribute('cx',String(p[0]));node.setAttribute('cy',String(p[1]));}});
    };
    draw();
@@ -76,11 +100,11 @@ export function LanguageGlobe(){
  },[]);
  return <div className="language-globe" ref={host}>
   <div className="language-globe-orbit" aria-hidden="true"/>
-  <svg ref={svg} viewBox="0 0 420 420" role="img" aria-label="Rotating world globe. Coral red marks countries where English has official status. Gold marks the United Kingdom, Australia and Mauritius, where English is used de facto. Small islands are shown as dots. Drag to turn the globe.">
+  <svg ref={svg} viewBox="0 0 420 420" role="img" aria-label="Rotating world globe showing our learning destinations. Coral red: UK, Australia, Canada, USA, India, Ireland, South Africa, New Zealand, Jamaica, Malta and Singapore. Gold: Hawaii, New York, Texas and California. Small destinations are also shown as dots. Drag to turn the globe.">
    <circle cx="210" cy="210" r="183" fill="#164b52"/><path d="M27 210h366M210 27a110 183 0 010 366 110 183 0 010-366" fill="none" stroke="#8bb2a3"/>
   </svg>
-  <div className="language-globe-caption"><span><i/>English has official status</span><button type="button" onClick={()=>setPaused(v=>!v)} aria-label={paused?'Resume globe rotation':'Pause globe rotation'} title={paused?'Resume rotation':'Pause rotation'}>{paused?<Play size={14}/>:<Pause size={14}/>}</button></div>
-  <p className="language-globe-key"><i/>English used de facto · small states shown as dots</p>
+  <div className="language-globe-caption"><span><i/>Our destinations</span><button type="button" onClick={()=>setPaused(v=>!v)} aria-label={paused?'Resume globe rotation':'Pause globe rotation'} title={paused?'Resume rotation':'Pause rotation'}>{paused?<Play size={14}/>:<Pause size={14}/>}</button></div>
+  <p className="language-globe-key"><i/>US state destinations · small destinations shown as dots</p>
   {failed&&<p role="status" className="language-globe-key">The map could not load. Please refresh to try again.</p>}
  </div>;
 }
