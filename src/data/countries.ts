@@ -2,7 +2,7 @@ import type { CountryConfig, Level } from '../types/curriculum';
 
 export const LEVELS: Level[] = ['BASIS', 'KADER', 'MAVO', 'HAVO'];
 
-export const COUNTRIES: CountryConfig[] = [
+const EXISTING_COUNTRIES: CountryConfig[] = [
   // ── Singapore ── current / active
   {
     id: 'singapore',
@@ -497,3 +497,213 @@ export const COUNTRIES: CountryConfig[] = [
 
 ];
 
+
+/** School route: the order within each year is the period order. */
+export const DESTINATION_YEARS = [
+  {
+    "year": 1,
+    "destinations": [
+      {
+        "id": "uk",
+        "title": "UK",
+        "subtitle": "British English",
+        "region": "Europe",
+        "flag": "🇬🇧",
+        "code": "LHR",
+        "period": 1
+      },
+      {
+        "id": "australia",
+        "title": "Australia",
+        "subtitle": "Australian English",
+        "region": "Oceania",
+        "flag": "🇦🇺",
+        "code": "SYD",
+        "period": 2
+      },
+      {
+        "id": "canada",
+        "title": "Canada",
+        "subtitle": "Canadian English",
+        "region": "North America",
+        "flag": "🇨🇦",
+        "code": "YVR",
+        "period": 3
+      },
+      {
+        "id": "usa",
+        "title": "USA",
+        "subtitle": "American English",
+        "region": "North America",
+        "flag": "🇺🇸",
+        "code": "USA",
+        "period": 4
+      }
+    ]
+  },
+  {
+    "year": 2,
+    "destinations": [
+      {
+        "id": "india",
+        "title": "India",
+        "subtitle": "English across India",
+        "region": "South Asia",
+        "flag": "🇮🇳",
+        "code": "DEL",
+        "period": 1
+      },
+      {
+        "id": "ireland",
+        "title": "Ireland",
+        "subtitle": "Hiberno-English",
+        "region": "Europe",
+        "flag": "🇮🇪",
+        "code": "DUB",
+        "period": 2
+      },
+      {
+        "id": "south-africa",
+        "title": "South Africa",
+        "subtitle": "South African English",
+        "region": "Southern Africa",
+        "flag": "🇿🇦",
+        "code": "CPT",
+        "period": 3
+      },
+      {
+        "id": "new-zealand",
+        "title": "New Zealand",
+        "subtitle": "New Zealand English",
+        "region": "Oceania",
+        "flag": "🇳🇿",
+        "code": "AKL",
+        "period": 4
+      }
+    ]
+  },
+  {
+    "year": 3,
+    "destinations": [
+      {
+        "id": "jamaica",
+        "title": "Jamaica",
+        "subtitle": "Caribbean English & Patois",
+        "region": "Caribbean",
+        "flag": "🇯🇲",
+        "code": "KIN",
+        "period": 1
+      },
+      {
+        "id": "malta",
+        "title": "Malta",
+        "subtitle": "Mediterranean English",
+        "region": "Southern Europe",
+        "flag": "🇲🇹",
+        "code": "MLA",
+        "period": 2
+      },
+      {
+        "id": "singapore",
+        "title": "Singapore",
+        "subtitle": "Asian English & Singlish",
+        "region": "Southeast Asia",
+        "flag": "🇸🇬",
+        "code": "SIN",
+        "period": 3
+      },
+      {
+        "id": "hawaii",
+        "title": "Hawaii",
+        "subtitle": "Pacific English & Hawaiian Culture",
+        "region": "Pacific Ocean",
+        "flag": "🇺🇸",
+        "code": "HNL",
+        "period": 4
+      }
+    ]
+  },
+  {
+    "year": 4,
+    "destinations": [
+      {
+        "id": "new-york",
+        "title": "New York",
+        "subtitle": "City stories & American English",
+        "region": "USA · New York",
+        "flag": "🇺🇸",
+        "code": "NYC",
+        "period": 1
+      },
+      {
+        "id": "texas",
+        "title": "Texas",
+        "subtitle": "The First Miles",
+        "region": "USA · Texas",
+        "flag": "🇺🇸",
+        "code": "TEX",
+        "period": 2
+      },
+      {
+        "id": "california",
+        "title": "California",
+        "subtitle": "West Coast stories & English",
+        "region": "USA · California",
+        "flag": "🇺🇸",
+        "code": "CAL",
+        "period": 3
+      }
+    ]
+  }
+] as const;
+
+export function getDestinationYear(id: string): number {
+  return DESTINATION_YEARS.find(group => group.destinations.some(destination => destination.id === id))?.year ?? 1;
+}
+
+export function getDestinationPeriod(id: string): number {
+  for (const group of DESTINATION_YEARS) {
+    const destination = group.destinations.find(destination => destination.id === id);
+    if (destination) return destination.period;
+  }
+  return 1;
+}
+
+export function getDestinationCode(id: string): string {
+  for (const group of DESTINATION_YEARS) {
+    const destination = group.destinations.find(destination => destination.id === id);
+    if (destination) return destination.code;
+  }
+  return '';
+}
+
+// Locally defined postcard artwork keeps new destination tiles independent of external image services.
+function postcard(title: string, year: number, period: number): string {
+  const palettes = [['#175c65', '#79c6c1'], ['#875332', '#e7b87b'], ['#425b81', '#b0c8e4'], ['#714b67', '#d7a7ba']];
+  const [ink, sky] = palettes[year - 1];
+  const safeTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600"><rect width="960" height="600" fill="${sky}"/><circle cx="755" cy="165" r="90" fill="#fff2ce"/><path d="M0 450L180 270L340 420L570 240L800 440L960 300V600H0Z" fill="${ink}" opacity=".28"/><path d="M0 510Q240 370 470 490T960 440V600H0Z" fill="${ink}" opacity=".6"/><text x="65" y="145" font-family="Georgia,serif" font-size="68" fill="${ink}">${safeTitle}</text><text x="70" y="205" font-family="Arial,sans-serif" font-size="24" letter-spacing="4" fill="${ink}">ENGLISH AROUND THE WORLD</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+export const COUNTRIES: CountryConfig[] = DESTINATION_YEARS.flatMap(group =>
+  group.destinations.map(destination => {
+    const existing = EXISTING_COUNTRIES.find(country => country.id === destination.id);
+    if (existing) return existing;
+    return {
+      id: destination.id,
+      title: destination.title,
+      subtitle: destination.subtitle,
+      flag: destination.flag,
+      region: destination.region,
+      status: 'locked' as const,
+      image: postcard(destination.title, group.year, destination.period),
+      description: `Explore ${destination.title} through English, culture and stories. Your teacher will add and open the lessons for this destination.`,
+      dialectFocus: destination.subtitle,
+      curriculumFocus: [],
+      recommendedLevels: group.year === 4 ? ['BASIS', 'KADER', 'MAVO'] as Level[] : [...LEVELS],
+      lessons: [],
+      portfolioOutputs: [],
+    };
+  })
+);
