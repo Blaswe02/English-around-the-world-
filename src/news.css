@@ -61,3 +61,28 @@
 @media(max-width:650px){.journal-logo{flex-direction:column;gap:9px}.journal-logo>img{width:215px}.journal-logo h1{text-align:center;font-size:45px;letter-spacing:-1.5px}.journal-logo h1:after{left:calc(50% - 50px);bottom:-11px}.journal-description{font-size:16px;margin-top:28px;max-width:340px}.journal-banner{padding-top:12px}.journal-school{font-size:9px;letter-spacing:1.6px}.journal-entry{gap:17px;margin:18px 0}.journal-tracks{gap:15px;font-size:10px}.journal-tracks>span+span{padding-left:15px}.journal-news-card{grid-column:1/-1}.journal-card-art{height:190px}.journal-card-copy h3{font-size:29px}.journal-card-meta>span{font-size:10px}.journal-section-heading{padding-top:24px}}
 
 .journal-card-art{position:relative;background-image:none;overflow:hidden}.journal-card-art svg{position:absolute;inset:0;width:100%;height:100%}.journal-card-art:before{display:none}
+
+/* A real orthographic globe, set into the paper rather than a boxed image. */
+.journal-banner{padding-top:22px;padding-bottom:28px}
+.journal-logo{max-width:1020px;gap:42px;margin:4px auto 0}
+.journal-logo h1{font-size:clamp(42px,4.7vw,70px);line-height:1.04;letter-spacing:-2.4px}
+.journal-logo h1:after{display:none}
+.language-globe{position:relative;flex:0 0 340px;width:340px;max-width:100%;isolation:isolate}
+.language-globe:before{content:'';position:absolute;inset:13% 7% 14%;border-radius:50%;background:#56867826;filter:blur(22px);z-index:-1}
+.language-globe svg{position:relative;display:block;width:100%;height:auto;cursor:grab;touch-action:pan-y;filter:drop-shadow(0 12px 13px #163c3d25)}
+.language-globe svg:active{cursor:grabbing}
+.language-country-glow{filter:drop-shadow(0 0 2px #ff684bcc)}
+.language-globe-orbit{position:absolute;inset:25% -5% 28%;border:1px solid #cfb18a80;border-radius:50%;transform:rotate(-23deg);z-index:-1}
+.language-globe-orbit:after{content:'';position:absolute;right:8%;top:10%;width:7px;height:7px;border-radius:50%;background:#ea6947;box-shadow:0 0 0 5px #ea69471a}
+.language-globe-caption{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:-14px;font-size:10px;letter-spacing:.15px;color:#375b52;position:relative}
+.language-globe-caption span{display:flex;align-items:center;gap:6px}
+.language-globe-caption i,.language-globe-key i{display:inline-block;background:#f16d58;border-radius:50%;width:6px;height:6px;box-shadow:0 0 5px #f16d5870}
+.language-globe-caption button{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid #c3c9b9;background:#fffaf0;color:#375b52;cursor:pointer}
+.language-globe-caption button:hover{background:#e8ecdf}
+.language-globe-caption button:focus-visible{outline:2px solid #e46a47;outline-offset:3px}
+.language-globe-key{font-size:9px;line-height:1.5;color:#5e7163;margin:4px 0 0}
+.language-globe-key i{background:#e1b866;box-shadow:none;margin-right:5px}
+.journal-description{margin-top:18px}
+@media(max-width:1050px){.journal-logo{gap:22px}.language-globe{flex-basis:280px;width:280px}.journal-logo h1{font-size:50px}}
+@media(max-width:750px){.journal-logo{gap:14px}.language-globe{flex-basis:240px;width:240px}.journal-logo h1{font-size:40px;letter-spacing:-1.4px}.language-globe-key{font-size:8px}}
+@media(max-width:650px){.journal-logo{flex-direction:column;gap:22px}.language-globe{flex-basis:auto;width:270px}.journal-logo h1{font-size:43px;line-height:1.05}.journal-description{margin-top:18px}.journal-school{margin-bottom:4px}}

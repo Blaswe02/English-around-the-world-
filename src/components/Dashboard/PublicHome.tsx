@@ -1,3 +1,4 @@
+import { LanguageGlobe } from './LanguageGlobe';
 import { ArrowRight, Compass, Globe2 } from 'lucide-react';
 import { useAuth } from '../../auth/AuthProvider';
 import { useNews, formatNewsDate, type NewsPost } from '../../services/news';
@@ -16,7 +17,7 @@ export function PublicHome({onLogin,onDestinations}:{onLogin:()=>void;onDestinat
  return <div className="travel-page journal-home">
   <section className="journal-banner" aria-labelledby="journal-title">
    <p className="journal-school">HAARLEM COLLEGE · ENGLISH</p>
-   <div className="journal-logo"><img src="/art/eatw-globe.png" alt="" width="1536" height="1024" fetchPriority="high"/><h1 id="journal-title">English Around<br/><span>the World<span className="journal-dot">.</span></span></h1></div>
+   <div className="journal-logo"><LanguageGlobe/><h1 id="journal-title">English Around<br/><span>the World<span className="journal-dot">.</span></span></h1></div>
    <p className="journal-description">English lessons through countries, culture, stories and more.</p>
    <div className="journal-entry"><button className="button button-coral" onClick={onLogin}><Compass size={18}/>{profile?'Go to my journey':'Log in to my journey'}<ArrowRight size={17}/></button><button className="text-button" onClick={onDestinations}>Explore destinations</button></div>
    <div className="journal-tracks"><span>VMBO · Years 1–4 <small>BASIS / KADER / MAVO</small></span><span>HAVO · Years 1–3</span></div>
