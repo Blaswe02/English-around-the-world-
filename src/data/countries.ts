@@ -677,19 +677,10 @@ export function getDestinationCode(id: string): string {
   return '';
 }
 
-// Locally defined postcard artwork keeps new destination tiles independent of external image services.
-function postcard(title: string, year: number, period: number): string {
-  const palettes = [['#175c65', '#79c6c1'], ['#875332', '#e7b87b'], ['#425b81', '#b0c8e4'], ['#714b67', '#d7a7ba']];
-  const [ink, sky] = palettes[year - 1];
-  const safeTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600"><rect width="960" height="600" fill="${sky}"/><circle cx="755" cy="165" r="90" fill="#fff2ce"/><path d="M0 450L180 270L340 420L570 240L800 440L960 300V600H0Z" fill="${ink}" opacity=".28"/><path d="M0 510Q240 370 470 490T960 440V600H0Z" fill="${ink}" opacity=".6"/><text x="65" y="145" font-family="Georgia,serif" font-size="68" fill="${ink}">${safeTitle}</text><text x="70" y="205" font-family="Arial,sans-serif" font-size="24" letter-spacing="4" fill="${ink}">ENGLISH AROUND THE WORLD</text></svg>`;
-  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-}
-
 export const COUNTRIES: CountryConfig[] = DESTINATION_YEARS.flatMap(group =>
   group.destinations.map(destination => {
     const existing = EXISTING_COUNTRIES.find(country => country.id === destination.id);
-    if (existing) return existing;
+    if (existing) return { ...existing, image: '/destinations/' + destination.id + '.jpg' };
     return {
       id: destination.id,
       title: destination.title,
@@ -697,7 +688,7 @@ export const COUNTRIES: CountryConfig[] = DESTINATION_YEARS.flatMap(group =>
       flag: destination.flag,
       region: destination.region,
       status: 'locked' as const,
-      image: postcard(destination.title, group.year, destination.period),
+      image: '/destinations/' + destination.id + '.jpg',
       description: `Explore ${destination.title} through English, culture and stories. Your teacher will add and open the lessons for this destination.`,
       dialectFocus: destination.subtitle,
       curriculumFocus: [],

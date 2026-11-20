@@ -11,3 +11,44 @@
 @media(max-width:900px){.header-label{display:none;}.travel-header{gap:12px;}.account-header-user span{max-width:90px;}.stamp-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:600px){.header-login{padding:8px 10px;font-size:12px;gap:5px;}.header-login svg{width:15px;}.travel-header{gap:8px;}.search-field{flex:1;}.account-header{gap:2px;}.account-header-user{font-size:12px;}.account-header-user>svg{display:none;}.account-header-user span{max-width:64px;}.account-header-user small{font-size:10px;}.logout-button{padding:5px;}.level-field{display:none;}.public-features{grid-template-columns:1fr;gap:5px;}.public-features>div{padding:18px 5px;}.public-home .hero-copy h2{font-size:46px;}.public-home .boarding-pass{display:block;}.public-home .learning-strip .button{width:100%;}.account-create,.stamp-award{grid-template-columns:1fr;}.auth-dialog-heading{padding:26px;}.auth-form{padding:24px;}.password-form{padding:18px 0 0;}.passport-cover{padding:27px;}.passport-cover h2{font-size:28px;}.stamp-grid{gap:8px;}.stamp-slot{padding:14px 5px;}.nav-item:nth-last-child(2){display:flex;}}
 
+
+/* Text-led interface: no decorative pictograms or emoji. */
+.travel-sidebar .brand{gap:0}
+.travel-sidebar.is-collapsed{width:150px;padding-inline:12px}
+.app-content.menu-collapsed{margin-left:150px}
+.travel-sidebar.is-collapsed .brand-name{display:block;font-size:13px}
+.travel-sidebar.is-collapsed .brand-name strong{font-size:17px}
+.travel-sidebar.is-collapsed .brand-name small{display:none}
+.travel-sidebar.is-collapsed .nav-item span,.travel-sidebar.is-collapsed .collapse-toggle span{display:block}
+.travel-sidebar.is-collapsed .nav-item{padding:12px 10px}
+.travel-sidebar .nav-item{gap:0}
+.language-globe-caption button{width:auto;min-width:57px;padding:0 9px;font:inherit}
+.journal-read-more summary{justify-content:flex-start;text-decoration:underline;text-underline-offset:4px}
+.destination-planned .destination-photo img{filter:none;opacity:1}
+.destination-photo{aspect-ratio:8/5}
+.destination-status{font-size:10px}
+.logout-button{font-size:12px;white-space:nowrap}
+.stamp-slot{min-height:95px}
+@media(max-width:1000px) and (min-width:601px){
+ .travel-sidebar,.travel-sidebar.is-collapsed{width:150px;padding-inline:12px}
+ .app-content,.app-content.menu-collapsed{margin-left:150px}
+ .travel-sidebar .brand-name{display:block;font-size:13px}
+ .travel-sidebar .brand-name strong{font-size:17px}
+ .travel-sidebar .brand-name small{display:none}
+ .travel-sidebar .nav-item span{display:block}
+ .travel-sidebar .nav-item{font-size:12px;padding:12px 9px;gap:0}
+ .travel-sidebar .nav-caption,.travel-sidebar .travel-note{display:none}
+}
+@media(max-width:600px){
+ .travel-sidebar,.travel-sidebar.is-collapsed{width:100%;padding-inline:0}
+ .app-content,.app-content.menu-collapsed{margin-left:0}
+ .travel-sidebar .brand{display:none}
+ .travel-sidebar .nav-item span{display:block;font-size:10px}
+ .travel-sidebar .nav-item{padding:10px 5px;gap:0}
+ .travel-sidebar .nav-item:nth-child(n+4){display:none}
+ .travel-sidebar .nav-item:last-child{display:flex}
+ .travel-sidebar .nav-caption,.travel-sidebar .sidebar-bottom{display:none}
+}
+
+.image-credits>div{max-height:60vh;overflow:auto}
+@media(max-width:900px) and (min-width:601px){.travel-sidebar .collapse-toggle{display:flex}}
