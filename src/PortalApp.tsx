@@ -19,7 +19,7 @@ import { AccountSettings } from './components/Auth/AccountSettings';
 import { LoginModal } from './components/Auth/LoginModal';
 import { ImageCredits } from './components/UI/ImageCredits';
 import { Modal } from './components/UI/Modal';
-import { COUNTRIES, LEVELS } from './data/countries';
+import { COUNTRIES, LEVELS, getDestinationYear } from './data/countries';
 import { useModuleAccess } from './services/moduleAccess';
 import { loadProgress, readLocal, writeLocal } from './services/progress';
 import type { Level, NavItem, CountryConfig, CountryStatus, Lesson } from './types/curriculum';
@@ -46,7 +46,7 @@ function Portal(){
   return()=>{cancelled=true;};
  },[user?.id,signedIn,level,year,revision]);
  const isLessonComplete=(c:string,l:string)=>!!(signedIn&&progress?.owner===user?.id&&progress?.level===level&&progress.year===year&&progress.done.has(`${c}__${l}`));
- const studentOpen=(c:CountryConfig)=>profile?.study_year===year&&access.rows.some(r=>r.country_id===c.id&&r.study_year===year&&r.study_level===level&&r.is_open);
+ const studentOpen=(c:CountryConfig)=>profile?.study_year===getDestinationYear(c.id)&&access.rows.some(r=>r.country_id===c.id&&r.study_year===getDestinationYear(c.id)&&r.study_level===level&&r.is_open);
  const canOpen=(c:CountryConfig)=>teacher||studentOpen(c);
  const getCountryStatus=(c:CountryConfig):CountryStatus=>studentOpen(c)?'current':'locked';
  const promptLogin=(next?:Intent)=>{setIntent(next||{kind:'nav',nav:'dashboard'});setLoginMessage('Log in to continue your learning journey.');setLogin(true);};
@@ -58,7 +58,7 @@ function Portal(){
  function openCountry(next:CountryConfig){
   if(!signedIn){promptLogin({kind:'country',country:next});return;}
   if(!canOpen(next)){setModal({title:'Your teacher opens this destination',message:`${next.title} is locked for Year ${year} ${level}. Your teacher decides when your group can start.`});return;}
-  setQuery('');setCountry(next);setLesson(null);setNav('eaatw');window.scrollTo({top:0});
+  setYear(getDestinationYear(next.id));setQuery('');setCountry(next);setLesson(null);setNav('eaatw');window.scrollTo({top:0});
  }
  function openLesson(next:Lesson,owner:CountryConfig){
   if(!signedIn){promptLogin({kind:'lesson',lesson:next,owner});return;}
@@ -78,7 +78,7 @@ function Portal(){
  else if(nav==='home')page=<PublicHome onLogin={()=>signedIn?navigate('dashboard'):promptLogin()} onDestinations={()=>navigate('eaatw')}/>;
  else if(nav==='eaatw'&&!country)page=<div className="travel-page">{signedIn&&<p>Year {year} · {level}{teacher?' · Teacher preview':'. Your teacher controls module access.'}</p>}<CountryGrid countries={COUNTRIES} level={level} getCountryStatus={getCountryStatus} onCountryClick={openCountry}/></div>;
  else if(!signedIn)page=<PublicHome onLogin={()=>promptLogin()} onDestinations={()=>navigate('eaatw')}/>;
- else if(nav==='dashboard')page=<DashboardHome level={level} year={year} onYearChange={changeYear} access={access.rows} countries={COUNTRIES} getCountryStatus={getCountryStatus} isLessonComplete={isLessonComplete} onCountryClick={openCountry} onNavigate={navigate}/>;
+ else if(nav==='dashboard')page=<DashboardHome level={level} year={year} onYearChange={changeYear} access={access.rows} countries={COUNTRIES.filter(c=>getDestinationYear(c.id)===year)} getCountryStatus={getCountryStatus} isLessonComplete={isLessonComplete} onCountryClick={openCountry} onNavigate={navigate}/>;
  else if(nav==='eaatw'&&country&&!canOpen(country))page=<div className="content-panel locked-year"><LockKeyhole size={30}/><h1>This destination is locked.</h1><p>Your teacher controls access for Year {year} {level}. Your completed work is kept.</p><button className="button button-teal" onClick={()=>navigate('dashboard')}>Back to my journey</button></div>;
  else if(nav==='eaatw'&&country&&lesson)page=progressBusy?<div className="content-panel" role="status">Loading your progress…</div>:<LessonPlayer key={`${user!.id}-${lesson.id}-${level}-${year}`} lesson={lesson} countryId={country.id} level={level} year={year} initialComplete={isLessonComplete(country.id,lesson.id)} onBack={()=>{setLesson(null);setRevision(v=>v+1);window.scrollTo({top:0});}}/>;
  else if(nav==='eaatw'&&country)page=<CountryDetail key={country.id} country={country} level={level} isTeacher={teacher} isLessonComplete={isLessonComplete} onBack={()=>setCountry(null)} onLessonClick={l=>openLesson(l,country)}/>;
