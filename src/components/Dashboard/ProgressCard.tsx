@@ -16,13 +16,13 @@ export function ProgressCard({
 }: ProgressCardProps) {
   const stats = [
     { label: 'Landen voltooid', value: `${completedCount} / ${totalCountries}`, icon: Globe },
-    { label: 'Lessen voor niveau', value: `${totalLessons}`, icon: BookOpen },
+    { label: 'Lessons for level', value: `${totalLessons}`, icon: BookOpen },
     { label: 'Huidig niveau', value: level, icon: Star },
   ];
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm flex flex-col gap-4">
-      <h4 className="font-bold text-slate-900 mb-2">Jouw voortgang</h4>
+      <h4 className="font-bold text-slate-900 mb-2">Your progress</h4>
       {stats.map((stat) => (
         <div
           key={stat.label}
@@ -40,4 +40,5 @@ export function ProgressCard({
     </div>
   );
 }
+
 

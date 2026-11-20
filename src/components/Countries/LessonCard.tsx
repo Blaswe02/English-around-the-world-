@@ -47,7 +47,7 @@ export function LessonCard({ lesson, level, index, isComplete, onClick }: Lesson
             ) : !isForLevel ? (
               <span className="text-xs text-slate-400 shrink-0 mt-0.5">Ander niveau</span>
             ) : (
-              <span className="text-xs text-slate-400 shrink-0 mt-0.5">Binnenkort</span>
+              <span className="text-xs text-slate-400 shrink-0 mt-0.5">Coming soon</span>
             )}
           </div>
 
@@ -108,4 +108,5 @@ export function LessonCard({ lesson, level, index, isComplete, onClick }: Lesson
     </motion.button>
   );
 }
+
 

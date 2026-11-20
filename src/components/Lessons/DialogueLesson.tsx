@@ -131,7 +131,7 @@ export function DialogueLesson({ title, intro, dialogues, onComplete }: Dialogue
             onClick={() => setPhase('quiz')}
             className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-all"
           >
-            Beantwoord de vragen →
+            Answer the questions →
           </button>
         </motion.div>
       )}
@@ -177,7 +177,7 @@ export function DialogueLesson({ title, intro, dialogues, onComplete }: Dialogue
               onClick={goNext}
               className="mt-6 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-all"
             >
-              {dialogueIdx < dialogues.length - 1 ? 'Volgende dialoog →' : 'Afronden →'}
+              {dialogueIdx < dialogues.length - 1 ? 'Next dialogue →' : 'Finish →'}
             </motion.button>
           )}
         </motion.div>
@@ -185,4 +185,5 @@ export function DialogueLesson({ title, intro, dialogues, onComplete }: Dialogue
     </div>
   );
 }
+
 

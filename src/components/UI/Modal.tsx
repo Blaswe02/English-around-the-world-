@@ -29,7 +29,7 @@ export function Modal({ title, message, onClose }: ModalProps) {
           <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="notice-title" className="p-6 sm:p-8">
             <button
               onClick={onClose}
-              aria-label="Melding sluiten"
+              aria-label="Close notice"
               className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-full transition-colors"
             >
               <X className="w-5 h-5" />
@@ -43,7 +43,7 @@ export function Modal({ title, message, onClose }: ModalProps) {
               onClick={onClose}
               className="mt-8 w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
             >
-              Begrepen
+              Got it
             </button>
           </div>
         </motion.div>
@@ -51,4 +51,5 @@ export function Modal({ title, message, onClose }: ModalProps) {
     </AnimatePresence>
   );
 }
+
 

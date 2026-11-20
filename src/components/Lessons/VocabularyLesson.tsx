@@ -111,7 +111,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
                 <>
                   <span className="text-5xl">{card.emoji}</span>
                   <h3 className="text-2xl font-bold text-slate-900">{card.word}</h3>
-                  <p className="text-xs text-slate-400">Tik om te draaien →</p>
+                  <p className="text-xs text-slate-400">Tap to flip →</p>
                 </>
               ) : (
                 <>
@@ -129,7 +129,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
           </AnimatePresence>
         </div>
 
-        <p className="text-center text-xs text-slate-400 mt-3">Tik op de kaart om de vertaling te zien</p>
+        <p className="text-center text-xs text-slate-400 mt-3">Tap the card to see the translation</p>
 
         {/* Nav buttons */}
         <div className="flex items-center justify-between mt-6">
@@ -138,12 +138,12 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
             disabled={cardIndex === 0}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 disabled:opacity-30 transition-all font-medium text-sm"
           >
-            <ChevronLeft className="w-4 h-4" /> Vorige
+            <ChevronLeft className="w-4 h-4" /> Previous
           </button>
           <button
             onClick={() => { setCardIndex(0); setFlipped(false); }}
             className="p-2 rounded-xl text-slate-400 hover:bg-slate-100 transition-all"
-            title="Opnieuw"
+            title="Restart"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -151,7 +151,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
             onClick={nextCard}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all"
           >
-            {cardIndex < vocab.length - 1 ? 'Volgende' : quiz && quiz.length > 0 ? 'Quiz →' : 'Klaar →'}
+            {cardIndex < vocab.length - 1 ? 'Next' : quiz && quiz.length > 0 ? 'Quiz →' : 'Done →'}
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -165,7 +165,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
       <div className="max-w-xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">
-            Quiz — vraag {quizIndex + 1} van {quiz!.length}
+            Quiz — question {quizIndex + 1} of {quiz!.length}
           </span>
           <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
             <div
@@ -219,7 +219,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
               className="mt-5 p-4 bg-slate-50 rounded-2xl"
             >
               <p className={`text-sm font-semibold mb-1 ${selected === question.correct ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {selected === question.correct ? '✓ Goed!' : '✗ Niet helemaal...'}
+                {selected === question.correct ? '✓ Correct!' : '✗ Not quite…'}
               </p>
               {question.explanation && (
                 <p className="text-sm text-slate-600 leading-relaxed">{question.explanation}</p>
@@ -228,7 +228,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
                 onClick={nextQuestion}
                 className="mt-4 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-all"
               >
-                {quizIndex < quiz!.length - 1 ? 'Volgende vraag →' : 'Resultaat bekijken →'}
+                {quizIndex < quiz!.length - 1 ? 'Next question →' : 'See results →'}
               </button>
             </motion.div>
           )}
@@ -250,7 +250,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
         <CheckCircle className={`w-10 h-10 ${passed ? 'text-emerald-500' : 'text-amber-500'}`} />
       </div>
       <h3 className="text-2xl font-bold text-slate-900 mb-2">
-        {passed ? 'Les voltooid! 🎉' : 'Goed geprobeerd!'}
+        {passed ? 'Lesson completed! 🎉' : 'Good effort!'}
       </h3>
       {quiz && quiz.length > 0 && (
         <p className="text-slate-500 mb-2">
@@ -259,8 +259,8 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
       )}
       <p className="text-slate-500 mb-8 leading-relaxed">
         {passed
-          ? 'Je voortgang is opgeslagen. Je kunt doorgaan naar de volgende les.'
-          : 'Probeer de les nog een keer om je score te verbeteren.'}
+          ? 'Press Continue to save your progress and go to the next lesson.'
+          : 'Try the lesson again to improve your score.'}
       </p>
       <div className="flex gap-3 justify-center">
         {!passed && (
@@ -268,17 +268,18 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
             onClick={() => { setPhase('cards'); setCardIndex(0); setFlipped(false); setQuizIndex(0); setSelected(null); setScore(0); }}
             className="px-5 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-all"
           >
-            Opnieuw proberen
+            Try again
           </button>
         )}
         <button
           onClick={onComplete}
           className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-200"
         >
-          {passed ? 'Verder →' : 'Toch doorgaan'}
+          {passed ? 'Continue →' : 'Continue anyway'}
         </button>
       </div>
     </motion.div>
   );
 }
+
 

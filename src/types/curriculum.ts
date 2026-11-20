@@ -40,6 +40,7 @@ export type StampType =
   | 'archive';
 
 export type NavItem =
+  | 'home'
   | 'dashboard'
   | 'eaatw'
   | 'passport'
@@ -92,4 +93,5 @@ export interface CountryConfig {
   teacherNotes?: string;
   portfolioOutputs?: string[];
 }
+
 

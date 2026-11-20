@@ -9,11 +9,11 @@ interface TeacherDashboardProps {
 }
 
 const STATUS_LABEL: Record<CountryStatus, string> = {
-  completed: 'Prototype / Archief',
-  current: 'Actief — huidige module',
-  development: 'In ontwikkeling',
-  locked: 'Gepland',
-  future: 'Toekomstige uitbreiding',
+  completed: 'Prototype / Archive',
+  current: 'Active — current module',
+  development: 'In development',
+  locked: 'Planned',
+  future: 'Future expansion',
 };
 
 const STATUS_COLOR: Record<CountryStatus, string> = {
@@ -40,7 +40,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
             <BookMarked className="w-5 h-5" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-            Docentenoverzicht
+            Curriculum overview
           </h2>
         </div>
         <p className="text-slate-500 mt-1 font-medium">
@@ -51,8 +51,8 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
       {/* Notice */}
       <div className="p-5 bg-amber-50 border border-amber-100 rounded-2xl mb-8">
         <p className="text-sm text-amber-700 font-medium">
-          Dit overzicht is bedoeld voor docenten. Hier vind je de lesstructuur, skills, portfolio
-          outputs en docentennotities per module. Het is een werk in uitvoering.
+          This overview is for teachers. Explore the lesson structure, skills, portfolio
+          outputs and teacher notes for each module. Content is still being developed.
         </p>
       </div>
 
@@ -60,19 +60,19 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
           {
-            label: 'Modules totaal',
+            label: 'Total modules',
             value: countries.length,
             icon: Target,
             color: 'bg-indigo-50 text-indigo-600',
           },
           {
-            label: 'Modules actief',
+            label: 'Modules with content',
             value: countries.filter((c) => c.status === 'current' || c.status === 'completed').length,
             icon: Users,
             color: 'bg-emerald-50 text-emerald-600',
           },
           {
-            label: 'Lessen (niveau)',
+            label: 'Lessons (level)',
             value: countries.reduce(
               (sum, c) => sum + c.lessons.filter((l) => l.levels.includes(level)).length,
               0,
@@ -133,7 +133,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-2xl font-bold text-slate-900">{lessonsForLevel.length}</p>
-                  <p className="text-xs text-slate-400">lessen ({level})</p>
+                  <p className="text-xs text-slate-400">lessons ({level})</p>
                 </div>
               </div>
 
@@ -177,7 +177,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
                 {country.teacherNotes && (
                   <div className="md:col-span-2">
                     <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                      Docentennotities
+                      Teacher notes
                     </p>
                     <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 rounded-xl p-4">
                       {country.teacherNotes}
@@ -188,7 +188,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
                 {/* Lesson list */}
                 <div className="md:col-span-2">
                   <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                    Lessen voor niveau {level}
+                    Lessons for level {level}
                   </p>
                   {lessonsForLevel.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -211,7 +211,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
                     </div>
                   ) : (
                     <p className="text-sm text-slate-400">
-                      Geen lessen beschikbaar voor niveau {level}.
+                      No lessons available for level {level}.
                     </p>
                   )}
                 </div>
@@ -223,12 +223,13 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
 
       <div className="mt-8 p-6 bg-slate-50 rounded-2xl">
         <p className="text-sm text-slate-500 leading-relaxed">
-          <strong className="text-slate-700">CEFR niveaus:</strong> BASIS = pre-A2, KADER = A2,
-          MAVO = A2–B1, HAVO = B1. Differentieer door het niveau te wisselen in de header.
-          AI-proof taken zijn gemarkeerd in de lesnotities.
+          <strong className="text-slate-700">CEFR levels:</strong> BASIS = pre-A2, KADER = A2,
+          MAVO = A2–B1, HAVO = B1. Change the level in the header to preview different versions.
+          Teacher notes describe the intended learning activities.
         </p>
       </div>
     </motion.div>
   );
 }
+
 

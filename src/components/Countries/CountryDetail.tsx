@@ -20,9 +20,9 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
   const [activeTab, setActiveTab] = useState<DetailTab>('lessons');
 
   const tabs: { id: DetailTab; label: string; icon: React.ElementType }[] = [
-    { id: 'lessons', label: 'Lessen', icon: BookOpen },
-    { id: 'passport', label: 'Paspoort', icon: Stamp },
-    { id: 'teacher', label: 'Docent', icon: BookMarked },
+    { id: 'lessons', label: 'Lessons', icon: BookOpen },
+    { id: 'passport', label: 'Passport', icon: Stamp },
+    { id: 'teacher', label: 'Teacher', icon: BookMarked },
   ];
 
   return (
@@ -38,7 +38,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
         className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-semibold text-sm mb-6 transition-colors"
       >
         <ChevronRight className="w-4 h-4 rotate-180" />
-        Alle bestemmingen
+        All destinations
       </button>
 
       {/* Hero */}
@@ -74,7 +74,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
       <div className="flex items-center gap-3 mb-6 p-4 bg-indigo-50 rounded-xl">
         <GraduationCap className="w-5 h-5 text-indigo-600 shrink-0" />
         <span className="text-sm font-semibold text-indigo-700">
-          Je ziet lessen voor niveau <strong>{level}</strong> — wissel van niveau in de header om alle lessen te zien.
+          Lessons for <strong>{level}</strong>. Your teacher assigns your level and opens your destinations.
         </span>
       </div>
 
@@ -120,7 +120,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
               Cultural Passport — {country.title}
             </h3>
             <p className="text-sm text-slate-500">
-              Elke gate heeft een taak. Voltooi de gate en ontvang een stempel voor je paspoort.
+              Each gate has a task. Your teacher awards a passport stamp when you complete it.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -154,7 +154,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
             ))}
           </div>
           <p className="mt-6 text-xs text-slate-400 text-center">
-            Passport gates worden binnenkort actief — kom snel terug!
+            Passport tasks are being developed. Your teacher will guide you.
           </p>
         </div>
       )}
@@ -163,15 +163,15 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
       {activeTab === 'teacher' && isTeacher && (
         <div className="space-y-6">
           <div className="p-6 bg-amber-50 border border-amber-100 rounded-2xl">
-            <h3 className="font-bold text-amber-800 mb-1 text-sm">Docentenoverzicht</h3>
+            <h3 className="font-bold text-amber-800 mb-1 text-sm">Curriculum overview</h3>
             <p className="text-xs text-amber-700">
-              Deze sectie is alleen bedoeld voor docenten. Studenten hoeven dit niet te zien.
+              This section is for teachers.
             </p>
           </div>
 
           {country.teacherNotes && (
             <div className="p-6 bg-white border border-slate-200 rounded-2xl">
-              <h4 className="font-bold text-slate-900 mb-2 text-sm">Docentennotities</h4>
+              <h4 className="font-bold text-slate-900 mb-2 text-sm">Teacher notes</h4>
               <p className="text-sm text-slate-600 leading-relaxed">{country.teacherNotes}</p>
             </div>
           )}
@@ -206,7 +206,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
 
           <div className="p-6 bg-white border border-slate-200 rounded-2xl">
             <h4 className="font-bold text-slate-900 mb-3 text-sm">
-              Lessen met docentennotities
+              Lessons with teacher notes
             </h4>
             <div className="space-y-3">
               {country.lessons
@@ -224,7 +224,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
                 ))}
               {country.lessons.filter((l) => l.teacherNote).length === 0 && (
                 <p className="text-sm text-slate-400">
-                  Geen docentennotities beschikbaar voor deze module.
+                  No teacher notes are available for this module.
                 </p>
               )}
             </div>
@@ -234,4 +234,5 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
     </motion.div>
   );
 }
+
 

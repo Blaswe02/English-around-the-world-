@@ -5,23 +5,23 @@ const STATUS_CONFIG: Record<
   { label: string; className: string }
 > = {
   completed: {
-    label: 'Voltooid',
+    label: 'Completed',
     className: 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10',
   },
   current: {
-    label: 'Actief',
+    label: 'Active',
     className: 'border-indigo-500/30 text-indigo-300 bg-indigo-500/10',
   },
   development: {
-    label: 'In ontwikkeling',
+    label: 'In development',
     className: 'border-amber-500/30 text-amber-300 bg-amber-500/10',
   },
   locked: {
-    label: 'Vergrendeld',
+    label: 'Locked',
     className: 'border-slate-500/30 text-slate-300 bg-slate-500/10',
   },
   future: {
-    label: 'Binnenkort',
+    label: 'Coming soon',
     className: 'border-slate-500/30 text-slate-300 bg-slate-500/10',
   },
 };
@@ -41,4 +41,5 @@ export function StatusBadge({ status, className = '' }: StatusBadgeProps) {
     </span>
   );
 }
+
 
