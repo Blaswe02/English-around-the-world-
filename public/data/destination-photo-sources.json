@@ -3,195 +3,255 @@
     "id": "uk",
     "year": 1,
     "title": "UK",
-    "file": "Big Ben from the Westminster Bridge.jpg",
-    "author": "Ryan Schwark",
-    "license": "CC0 1.0",
-    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "alt": "Big Ben and the Palace of Westminster beside the River Thames in London",
-    "position": "50% 48%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Big_Ben_from_the_Westminster_Bridge.jpg",
-    "src": "/destinations/uk.jpg"
+    "author": "Arun Pushpam Raj",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/the-big-ben-clock-tower-towering-over-the-city-of-london-n6-nCr6963c",
+    "downloadUrl": "https://images.unsplash.com/photo-1673901938351-9edacbbf8eb3?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/uk.jpg",
+    "alt": "Elizabeth Tower and the Palace of Westminster in London",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.25
+    ]
   },
   {
     "id": "australia",
     "year": 1,
     "title": "Australia",
-    "file": "Sydney Opera House from the harbour.jpg",
-    "author": "-jkb-",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-    "alt": "The white sails of Sydney Opera House seen across the harbour",
-    "position": "50% 52%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sydney_Opera_House_from_the_harbour.jpg",
-    "src": "/destinations/australia.jpg"
+    "author": "Sung Jin Cho",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/sydney-opera-house-illuminated-at-dusk-by-night-wZ9tCpm3csQ",
+    "downloadUrl": "https://images.unsplash.com/photo-1771760171329-02a5396d89ca?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/australia.jpg",
+    "alt": "Sydney Opera House illuminated beside the harbour at dusk",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "canada",
     "year": 1,
     "title": "Canada",
-    "file": "Moraine Lake Canada.jpg",
-    "author": "LASZLO ILYES",
-    "license": "CC BY 2.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
-    "alt": "Turquoise Moraine Lake below the Rocky Mountains in Banff National Park, Canada",
-    "position": "50% 52%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_Canada.jpg",
-    "src": "/destinations/canada.jpg"
+    "author": "Rafael Peier",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/a-mountain-lake-surrounded-by-trees-and-mountains-TdsIxXt8dcw",
+    "downloadUrl": "https://images.unsplash.com/photo-1734629322258-20a8b4ae4484?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/canada.jpg",
+    "alt": "Moraine Lake beneath the Rocky Mountains in Alberta",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "usa",
     "year": 1,
     "title": "USA",
-    "file": "Monument Valley, United States.jpg",
-    "author": "Clément Bardot",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "The sandstone buttes of Monument Valley in the American Southwest",
-    "position": "50% 52%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Monument_Valley%2C_United_States.jpg",
-    "src": "/destinations/usa.jpg"
+    "author": "Halie West",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/brown-rock-formation-under-blue-sky-during-daytime-l0zYkZJUE1E",
+    "downloadUrl": "https://images.unsplash.com/photo-1590507779382-a343713795c0?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/usa.jpg",
+    "alt": "Sandstone buttes in Monument Valley in the Navajo Nation",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.45
+    ]
   },
   {
     "id": "india",
     "year": 2,
     "title": "India",
-    "file": "The Taj Mahal in India.jpg",
-    "author": "TonyF51",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "The Taj Mahal and its reflecting pool in Agra, India",
-    "position": "50% 45%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Taj_Mahal_in_India.jpg",
-    "src": "/destinations/india.jpg"
+    "author": "Julian Yu",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/photo-of-taj-mahal-_WuPjE-MPHo",
+    "downloadUrl": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/india.jpg",
+    "alt": "The Taj Mahal and its reflection in Agra",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "ireland",
     "year": 2,
     "title": "Ireland",
-    "file": "TheCliffs of Moher.jpg",
-    "author": "liamgrehan",
-    "license": "CC0 1.0",
-    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "alt": "Green-topped Cliffs of Moher above the Atlantic Ocean in Ireland",
-    "position": "50% 55%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:TheCliffs_of_Moher.jpg",
-    "src": "/destinations/ireland.jpg"
+    "author": "Pierre Goiffon",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/dramatic-cliffs-overlooking-a-vast-blue-ocean-ts-xOSZLkaQ",
+    "downloadUrl": "https://images.unsplash.com/photo-1765900050628-c9ecdc2d8ccc?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/ireland.jpg",
+    "alt": "The green-topped Cliffs of Moher above the Atlantic Ocean",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "south-africa",
     "year": 2,
     "title": "South Africa",
-    "file": "Cape Town Table Mountain.jpg",
-    "author": "Matthiasmullie",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "Table Mountain above Cape Town, seen from the V&A Waterfront",
-    "position": "50% 48%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cape_Town_Table_Mountain.jpg",
-    "src": "/destinations/south-africa.jpg"
+    "author": "Tobie Esterhuyzen",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/table-mountain-rises-above-the-ocean-near-the-coast-R_7kWouFFgk",
+    "downloadUrl": "https://images.unsplash.com/photo-1761400823907-d0454d0c5057?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/south-africa.jpg",
+    "alt": "Table Mountain seen across the sea from Bloubergstrand in Cape Town",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.45
+    ]
   },
   {
     "id": "new-zealand",
     "year": 2,
     "title": "New Zealand",
-    "file": "Milford Sound Mitre Peak.JPG",
-    "author": "MurielBendel",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "Mitre Peak rising above the waters of Milford Sound in New Zealand",
-    "position": "45% 50%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Milford_Sound_Mitre_Peak.JPG",
-    "src": "/destinations/new-zealand.jpg"
+    "author": "Marek Piwnicki",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/a-large-mountain-next-to-a-body-of-water-bLzAEm-BNWQ",
+    "downloadUrl": "https://images.unsplash.com/photo-1659862371682-bd8c8d1ef3cb?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/new-zealand.jpg",
+    "alt": "Mountain scenery beside Milford Sound in New Zealand",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "jamaica",
     "year": 3,
     "title": "Jamaica",
-    "file": "Negril-Beach.jpg",
-    "author": "Stufffreak",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "The sandy shoreline and Caribbean Sea at Negril, Jamaica",
-    "position": "50% 55%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Negril-Beach.jpg",
-    "src": "/destinations/jamaica.jpg"
+    "author": "Intyaud Banton",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/a-small-boat-floating-on-top-of-a-blue-ocean-Z1YbmTWkcYY",
+    "downloadUrl": "https://images.unsplash.com/photo-1634439695738-2e711fcbb011?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/jamaica.jpg",
+    "alt": "A boat beside Seven Mile Beach in Negril, Jamaica",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "malta",
     "year": 3,
     "title": "Malta",
-    "file": "Valletta skyline.jpg",
-    "author": "Briangotts / Tintazul",
-    "license": "Copyrighted free use",
-    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Valletta_skyline.jpg",
-    "alt": "The limestone skyline and harbour of Valletta, Malta",
+    "author": "Dawid Tkocz",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/boats-in-grand-harbour-valletta-malta-8LZmOnoWbnc",
+    "downloadUrl": "https://images.unsplash.com/photo-1791129894966-be907fde4696?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/malta.jpg",
+    "alt": "Boats beneath the historic fortifications of Valletta in Malta",
     "position": "50% 50%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Valletta_skyline.jpg",
-    "src": "/destinations/malta.jpg"
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "singapore",
     "year": 3,
     "title": "Singapore",
-    "file": "Singapore-marina-bay.jpg",
-    "author": "Nightcrafter",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "The Merlion and Singapore skyline beside Marina Bay",
-    "position": "50% 48%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Singapore-marina-bay.jpg",
-    "src": "/destinations/singapore.jpg"
+    "author": "Connor Gan",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/a-statue-of-a-lion-spewing-water-out-of-its-mouth--kuoVpRgXbc",
+    "downloadUrl": "https://images.unsplash.com/photo-1721087331658-b0f74a0e6369?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/singapore.jpg",
+    "alt": "The Merlion fountain at Marina Bay in Singapore",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0
+    ]
   },
   {
     "id": "hawaii",
     "year": 3,
     "title": "Hawaii",
-    "file": "Na Pali Coast.jpg",
-    "author": "MEBurkhart",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "alt": "Green ridges of the Nā Pali Coast on Kauai, Hawaii, viewed from the sea",
-    "position": "50% 48%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Na_Pali_Coast.jpg",
-    "src": "/destinations/hawaii.jpg"
+    "author": "J dG",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/aerial-photography-of-mountain-range-dhsMqSP0o_s",
+    "downloadUrl": "https://images.unsplash.com/photo-1531226208074-94fb5a1bb26c?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/hawaii.jpg",
+    "alt": "The green ridges of the Na Pali Coast on Kauai, Hawaii",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "new-york",
     "year": 4,
     "title": "New York",
-    "file": "Brooklyn Bridge Manhattan Skyline.jpg",
-    "author": "Balon Greyjoy",
-    "license": "CC0 1.0",
-    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "alt": "Brooklyn Bridge stretching towards the Manhattan skyline in New York City",
+    "author": "Partha Narasimhan",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/de/fotos/skyline-der-stadt-bei-nacht-R1xgso_3UDQ",
+    "downloadUrl": "https://images.unsplash.com/photo-1599854171059-d91f0fee45cd?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/new-york.jpg",
+    "alt": "Brooklyn Bridge and the illuminated Manhattan skyline at night",
     "position": "50% 50%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_Manhattan_Skyline.jpg",
-    "src": "/destinations/new-york.jpg"
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "texas",
     "year": 4,
     "title": "Texas",
-    "file": "USA - Texas - Bluebonnets.jpg",
-    "author": "Alexander Hatley",
-    "license": "CC BY 2.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
-    "alt": "A field of bluebonnets in the Texas spring landscape",
-    "position": "50% 55%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:USA_-_Texas_-_Bluebonnets.jpg",
-    "src": "/destinations/texas.jpg"
+    "author": "Justin Wolff",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/blue-and-white-flowers-on-green-grass-field-during-daytime-cx8SvwYm1uA",
+    "downloadUrl": "https://images.unsplash.com/photo-1585666961360-23c53eeecf81?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/texas.jpg",
+    "alt": "Texas bluebonnets growing in a field near New Braunfels",
+    "position": "50% 50%",
+    "crop": [
+      0.5,
+      0.5
+    ]
   },
   {
     "id": "california",
     "year": 4,
     "title": "California",
-    "file": "Golden Gate Bridge, San Francisco, California.jpg",
-    "author": "Christopher Crouzet",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-    "alt": "Golden Gate Bridge spanning the bay in San Francisco, California",
+    "author": "Maarten van den Heuvel",
+    "license": "Unsplash License",
+    "licenseUrl": "https://unsplash.com/license",
+    "sourceUrl": "https://unsplash.com/photos/golden-gate-bridge-during-daytime-gZXx8lKAb7Y",
+    "downloadUrl": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200&q=85&fit=max&fm=jpg",
+    "src": "/destinations/california.jpg",
+    "alt": "The Golden Gate Bridge across San Francisco Bay in California",
     "position": "50% 50%",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Golden_Gate_Bridge%2C_San_Francisco%2C_California.jpg",
-    "src": "/destinations/california.jpg"
+    "crop": [
+      0.5,
+      0.5
+    ]
   }
 ]
