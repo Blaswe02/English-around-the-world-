@@ -52,3 +52,18 @@
 
 .image-credits>div{max-height:60vh;overflow:auto}
 @media(max-width:900px) and (min-width:601px){.travel-sidebar .collapse-toggle{display:flex}}
+
+.destination-photo{width:100%;aspect-ratio:auto}
+.nav-label-short{display:none}
+@media(max-width:600px){
+ .travel-sidebar nav{overflow-x:auto;justify-content:flex-start}
+ .travel-sidebar .nav-item,.travel-sidebar .nav-item:nth-child(n+4),.travel-sidebar .nav-item:nth-last-child(2){display:flex;min-width:67px;flex:1}
+ .travel-sidebar .nav-item .nav-label-full{display:none}
+ .travel-sidebar .nav-item .nav-label-short{display:block;white-space:nowrap;font-size:10px}
+}
+
+.travel-sidebar .nav-item .nav-label-short,.travel-sidebar.is-collapsed .nav-item .nav-label-short{display:none}
+@media(max-width:600px){
+ .travel-sidebar .nav-item .nav-label-short,.travel-sidebar.is-collapsed .nav-item .nav-label-short{display:block}
+ .travel-sidebar .nav-item .nav-label-full,.travel-sidebar.is-collapsed .nav-item .nav-label-full{display:none}
+}
