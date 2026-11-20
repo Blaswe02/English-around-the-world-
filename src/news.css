@@ -6,3 +6,58 @@
 @media(max-width:1100px){.news-layout{grid-template-columns:minmax(0,1fr) 250px;gap:22px}.news-welcome-copy{padding:28px}.year-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){.news-layout{grid-template-columns:1fr}.news-aside{display:grid;grid-template-columns:1fr 1fr;gap:18px}.news-ticket{margin-top:0}.news-welcome{grid-template-columns:1fr}.news-welcome-image{min-height:200px}.news-welcome h2{font-size:34px}.module-access-row{flex-wrap:wrap}.module-access-row .button{width:100%}.journey-welcome>span{display:none}}
 @media(max-width:500px){.news-aside{grid-template-columns:1fr}.news-welcome-copy{padding:24px}.news-welcome h2{font-size:29px}.news-post{padding:22px}.news-actions{align-items:stretch;gap:14px}.news-actions .button{width:100%}.news-actions>.text-button{margin-top:5px}.year-card{padding:15px}.year-card.selected{padding:14px}.year-card>div span{font-size:8px}.year-card h2{font-size:24px}.enrolment-fields{flex-wrap:wrap}.enrolment-fields label{min-width:100px}}
+
+/* Editorial home: cream paper, globe identity and an uneven news grid. */
+.travel-main:has(.journal-home){background-color:#fbf5e9;background-image:radial-gradient(#ac835c0a .7px,transparent .7px);background-size:5px 5px}
+.journal-home{--journal-ink:#123d40;--journal-line:#d6c5ae;--journal-coral:#ea6947;color:var(--journal-ink);padding-bottom:20px}
+.journal-banner{position:relative;text-align:center;padding:25px 20px 30px;border-bottom:1px solid var(--journal-line);isolation:isolate;overflow:hidden}
+.journal-school{font-size:10px;font-weight:700;letter-spacing:2.2px;color:#59716b}
+.journal-logo{display:flex;justify-content:center;align-items:center;gap:8px;max-width:900px;margin:12px auto 4px}
+.journal-logo>img{width:290px;height:auto;flex-shrink:0;object-fit:contain;filter:drop-shadow(0 6px 10px #9d73421a)}
+.journal-logo h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,4.8vw,75px);font-weight:700;line-height:1.01;letter-spacing:-2.8px;text-align:left;margin:0;position:relative}
+.journal-logo h1:after{content:'';position:absolute;width:100px;height:5px;left:4px;bottom:-14px;border-radius:50%;background:var(--journal-coral);transform:rotate(-3deg)}
+.journal-dot{color:var(--journal-coral)}
+.journal-description{font-size:clamp(16px,1.55vw,21px);font-weight:500;line-height:1.6;margin:20px auto 0;max-width:780px;color:#344f4c}
+.journal-entry{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:24px;margin:20px 0}
+.journal-entry .button{background:#f17b57;color:#183d3e;box-shadow:inset 0 0 0 1px #e96542}
+.journal-entry .button:hover{background:#ef6943}
+.journal-entry .text-button{color:#275e55}
+.journal-tracks{display:flex;gap:30px;justify-content:center;align-items:center;font-size:11px;font-weight:700;letter-spacing:.4px;color:#375b52}
+.journal-tracks>span+span{border-left:1px solid #c9bba6;padding-left:30px}
+.journal-tracks small{display:block;font-weight:500;font-size:9px;letter-spacing:1px;color:#6d7d71;margin-top:4px}
+.journal-section-heading{padding:25px 0 22px}
+.journal-section-heading .eyebrow{font-size:11px;letter-spacing:1.2px;margin-bottom:6px;color:#377063}
+.journal-section-heading h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(27px,3.2vw,43px);font-weight:700;letter-spacing:-1.3px;line-height:1.15;margin:0}
+.journal-news-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:19px;align-items:start}
+.journal-news-card{position:relative;display:flex;flex-direction:column-reverse;align-self:stretch;overflow:hidden;border:1px solid var(--journal-line);border-radius:15px;background:#fffaf0;box-shadow:0 3px 0 #b99f7510;min-width:0}
+.journal-card-0,.journal-card-3{grid-column:span 7}
+.journal-card-1,.journal-card-2{grid-column:span 5}
+.journal-card-art{height:180px;flex-shrink:0;background-image:url('/art/classroom-stories.png');background-size:200% 200%;background-repeat:no-repeat}
+.journal-art-method{background-position:0 0}
+.journal-art-website{background-position:100% 0}
+.journal-art-texas{background-position:0 100%}
+.journal-art-space{background-position:100% 100%}
+.journal-card-copy{padding:23px 25px 18px;flex:1;min-width:0}
+.journal-card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;justify-content:space-between;margin-bottom:13px}
+.journal-card-meta>span{display:inline-block;padding:6px 9px 5px;background:#e87a55;color:#fffdf5;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;border-radius:3px;transform:rotate(-1.2deg)}
+.journal-theme-website{background:#eff3e8}
+.journal-theme-website .journal-card-meta>span{background:#24685c}
+.journal-theme-texas .journal-card-meta>span{background:#e6ad36;color:#263d38}
+.journal-theme-space .journal-card-meta>span{background:#28516a}
+.journal-card-meta time{font-size:10px;color:#6e7b6d}
+.journal-card-copy h3{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(23px,2.3vw,31px);line-height:1.12;letter-spacing:-.7px;margin:0 0 11px;overflow-wrap:anywhere}
+.journal-card-copy>p{font-size:14px;line-height:1.7;color:#4a5d54;white-space:pre-wrap;margin:0}
+.journal-read-more{margin-top:16px}
+.journal-read-more summary{display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;list-style:none;color:#34685a;font-size:11px;font-weight:600}
+.journal-read-more summary::-webkit-details-marker{display:none}
+.journal-read-more summary i{display:flex;align-items:center;justify-content:center;background:#f47b50;border:1px solid #e26c42;box-shadow:0 0 0 3px #fff8ed;color:#fff;width:33px;height:33px;flex-shrink:0;border-radius:50%;transition:transform .18s ease}
+.journal-read-more summary:hover i{transform:translateX(3px)}
+.journal-read-more[open] summary i{transform:rotate(90deg)}
+.journal-update-body{white-space:pre-wrap;font-size:14px;line-height:1.8;color:#344e45;border-top:1px solid #d9cdb9;margin-top:18px;padding-top:18px}
+.journal-empty{background:#fffaf0;border:1px dashed #d6c5ae;border-radius:13px;padding:26px;font-size:15px;line-height:1.8}
+.journal-empty h3{font-family:Georgia,serif;font-size:25px;margin:10px 0}
+@media(min-width:1200px){.journal-news-card{flex-direction:row-reverse}.journal-card-art{height:auto;width:44%;min-height:240px;position:relative;background-image:none;overflow:hidden}.journal-card-art:before{content:'';position:absolute;width:200%;height:200%;background-image:url('/art/classroom-stories.png');background-size:100% 100%}.journal-art-method:before{left:0;top:0}.journal-art-website:before{right:0;top:0}.journal-art-texas:before{left:0;bottom:0}.journal-art-space:before{right:0;bottom:0}.journal-card-art:after{content:'';position:absolute;top:0;bottom:0;left:-1px;width:12px;background:#fffaf0;clip-path:polygon(0 0,90% 0,45% 10%,75% 22%,30% 34%,65% 47%,20% 61%,70% 76%,35% 87%,80% 100%,0 100%)}.journal-theme-website .journal-card-art:after{background:#eff3e8}}
+@media(max-width:950px){.journal-logo>img{width:235px}.journal-logo h1{font-size:49px;letter-spacing:-1.8px}.journal-banner{padding:22px 0 26px}.journal-card-copy{padding:20px}.journal-card-art{height:155px}.journal-news-grid{gap:15px}}
+@media(max-width:650px){.journal-logo{flex-direction:column;gap:9px}.journal-logo>img{width:215px}.journal-logo h1{text-align:center;font-size:45px;letter-spacing:-1.5px}.journal-logo h1:after{left:calc(50% - 50px);bottom:-11px}.journal-description{font-size:16px;margin-top:28px;max-width:340px}.journal-banner{padding-top:12px}.journal-school{font-size:9px;letter-spacing:1.6px}.journal-entry{gap:17px;margin:18px 0}.journal-tracks{gap:15px;font-size:10px}.journal-tracks>span+span{padding-left:15px}.journal-news-card{grid-column:1/-1}.journal-card-art{height:190px}.journal-card-copy h3{font-size:29px}.journal-card-meta>span{font-size:10px}.journal-section-heading{padding-top:24px}}
+
+.journal-card-art{position:relative;background-image:none;overflow:hidden}.journal-card-art svg{position:absolute;inset:0;width:100%;height:100%}.journal-card-art:before{display:none}

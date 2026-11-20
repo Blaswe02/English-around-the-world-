@@ -1,16 +1,37 @@
-import { ArrowRight, BookOpen, Compass, Globe2, Newspaper } from 'lucide-react';
+import { ArrowRight, Compass, Globe2 } from 'lucide-react';
 import { useAuth } from '../../auth/AuthProvider';
-import { useNews, formatNewsDate } from '../../services/news';
-import { COUNTRIES } from '../../data/countries';
-export function PublicHome({onLogin,onDestinations}:{onLogin:()=>void;onDestinations:()=>void}) {
- const {profile}=useAuth();const {posts,busy,error,reload}=useNews(false);
- return <div className="travel-page news-home">
-  <div className="page-intro"><div><p className="eyebrow">ENGLISH AROUND THE WORLD · HAARLEM COLLEGE</p><h1>News &amp; updates</h1><p>A window into our English classroom. New stories, ideas and things to explore.</p></div><Newspaper size={34}/></div>
-  <section className="news-welcome" aria-labelledby="welcome-title"><div className="news-welcome-copy"><p className="eyebrow">LEARN THE LANGUAGE. DISCOVER THE WORLD.</p><h2 id="welcome-title">The world gives you<br/><em>something to talk about.</em></h2><p>Discover places, people and stories while learning to use English. Read, listen, speak and write with a purpose — and find your own voice.</p><div className="news-actions"><button className="button button-coral" onClick={onLogin}><Compass size={18}/>{profile?'Go to my journey':'Log in to my journey'}<ArrowRight size={17}/></button><button className="text-button" onClick={onDestinations}>Explore destinations</button></div></div><div className="news-welcome-image"><img src={COUNTRIES[0].image} alt="Singapore skyline beside Marina Bay" fetchPriority="high"/><span><Globe2 size={16}/>One language. Many worlds.</span></div></section>
-  <div className="news-layout"><section className="news-feed" aria-labelledby="latest-title"><div className="section-heading"><div><p className="eyebrow">FROM OUR CLASSROOM TO YOUR SCREEN</p><h2 id="latest-title">The latest</h2></div></div>
-   {busy&&<p role="status" className="content-panel">Loading updates…</p>}{error&&<div role="alert" className="form-error">{error} <button className="text-button" onClick={reload}>Try again</button></div>}
-   {!busy&&!error&&!posts.length&&<div className="news-empty"><Newspaper size={28}/><h3>Watch this space.</h3><p>New classroom stories, lesson announcements and method updates will appear here.</p>{profile?.role==='teacher'&&<p>Add your first update in For teachers → News &amp; updates.</p>}</div>}
-   {posts.map(post=><article className="news-post" key={post.id}><div className="news-meta"><span>{post.category}</span><time dateTime={post.published_at!}>{formatNewsDate(post.published_at!)}</time></div><h3>{post.title}</h3><p className="news-summary">{post.summary}</p>{post.body&&<details><summary>Read update <ArrowRight size={15}/></summary><div className="news-body">{post.body}</div></details>}</article>)}
-  </section><aside className="news-aside"><section className="news-method"><BookOpen size={25}/><p className="eyebrow">OUR METHOD</p><h2>English opens doors.</h2><p>Culture gives our lessons their context. Using English is at the heart of every journey.</p><ul><li>Read and listen to discover.</li><li>Speak and exchange ideas.</li><li>Write and create your own work.</li></ul><div className="news-scope"><strong>VMBO · Years 1–4</strong><span>BASIS / KADER / MAVO</span><strong>HAVO · Years 1–3</strong></div></section><section className="news-ticket"><Compass size={24}/><h3>Your next stop?</h3><p>My Journey is your personal space after login. Your teacher assigns your year and level and opens your destinations.</p><button className="text-button" onClick={onLogin}>{profile?'Open my journey':'Student & teacher login'}<ArrowRight size={15}/></button></section></aside></div>
+import { useNews, formatNewsDate, type NewsPost } from '../../services/news';
+
+const viewboxes:Record<string,string>={method:"0 0 768 512",website:"768 0 768 512",texas:"0 512 768 512",space:"768 512 768 512"};
+function artwork(post:NewsPost){
+ const title=post.title.toLowerCase();
+ if(title.includes('nasa'))return 'space';
+ if(title.includes('texas')||title.includes('first miles'))return 'texas';
+ if(title.includes('online')||post.category==='Platform news')return 'website';
+ return 'method';
+}
+export function PublicHome({onLogin,onDestinations}:{onLogin:()=>void;onDestinations:()=>void}){
+ const {profile}=useAuth();
+ const {posts,busy,error,reload}=useNews(false);
+ return <div className="travel-page journal-home">
+  <section className="journal-banner" aria-labelledby="journal-title">
+   <p className="journal-school">HAARLEM COLLEGE · ENGLISH</p>
+   <div className="journal-logo"><img src="/art/eatw-globe.png" alt="" width="1536" height="1024" fetchPriority="high"/><h1 id="journal-title">English Around<br/><span>the World<span className="journal-dot">.</span></span></h1></div>
+   <p className="journal-description">English lessons through countries, culture, stories and more.</p>
+   <div className="journal-entry"><button className="button button-coral" onClick={onLogin}><Compass size={18}/>{profile?'Go to my journey':'Log in to my journey'}<ArrowRight size={17}/></button><button className="text-button" onClick={onDestinations}>Explore destinations</button></div>
+   <div className="journal-tracks"><span>VMBO · Years 1–4 <small>BASIS / KADER / MAVO</small></span><span>HAVO · Years 1–3</span></div>
+  </section>
+  <section aria-labelledby="classroom-title" className="journal-updates">
+   <div className="journal-section-heading"><p className="eyebrow">NEWS &amp; UPDATES</p><h2 id="classroom-title">Inside our classroom</h2></div>
+   {busy&&<p role="status" className="journal-empty">Loading updates…</p>}
+   {error&&<div role="alert" className="form-error">{error} <button className="text-button" onClick={reload}>Try again</button></div>}
+   {!busy&&!error&&!posts.length&&<div className="journal-empty"><Globe2 size={28}/><h3>News &amp; updates</h3><p>Classroom projects and lesson updates will appear here.</p>{profile?.role==='teacher'&&<p>Add an update in For teachers → News &amp; updates.</p>}</div>}
+   <div className="journal-news-grid">{posts.map((post,i)=><article key={post.id} className={`journal-news-card journal-card-${i%4} journal-theme-${artwork(post)}`}>
+    <div className={`journal-card-art journal-art-${artwork(post)}`} aria-hidden="true"><svg viewBox={viewboxes[artwork(post)]} preserveAspectRatio="xMidYMid slice"><image href="/art/classroom-stories.png" x="0" y="0" width="1536" height="1024"/></svg></div>
+    <div className="journal-card-copy"><div className="journal-card-meta"><span>{post.category}</span><time dateTime={post.published_at!}>{formatNewsDate(post.published_at!)}</time></div><h3>{post.title}</h3><p>{post.summary}</p>
+     {post.body&&<details className="journal-read-more"><summary aria-label={`Read update: ${post.title}`}><span>Read update</span><i><ArrowRight size={19}/></i></summary><div className="journal-update-body">{post.body}</div></details>}
+    </div>
+   </article>)}</div>
+  </section>
  </div>;
 }
