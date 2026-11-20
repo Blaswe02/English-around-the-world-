@@ -145,7 +145,7 @@ export const COUNTRIES: CountryConfig[] = [
     flag: '🇲🇹',
     region: 'Southern Europe',
     status: 'completed',
-    image: 'https://picsum.photos/seed/maltavaletta2024/800/500',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Valletta_skyline.jpg/960px-Valletta_skyline.jpg',
     description:
       'Discover the tiny island nation where English has been official for over 200 years, shaped by Maltese, Italian, and British influence.',
     dialectFocus: 'Maltese English',
@@ -250,7 +250,7 @@ export const COUNTRIES: CountryConfig[] = [
     flag: '🇺🇸',
     region: 'Pacific Ocean',
     status: 'development',
-    image: 'https://picsum.photos/seed/hawaiibeach2024/800/500',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Na_Pali_Coast.jpg/960px-Na_Pali_Coast.jpg',
     description:
       'Journey to the 50th US state, where American English blends with Hawaiian Pidgin and the rich culture of the Pacific islands.',
     dialectFocus: 'Hawaiian Pidgin English',
@@ -369,7 +369,7 @@ export const COUNTRIES: CountryConfig[] = [
     flag: '🇯🇲',
     region: 'Caribbean',
     status: 'locked',
-    image: 'https://picsum.photos/seed/jamaicagreen2024/800/500',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Negril-Beach.jpg/960px-Negril-Beach.jpg',
     description:
       'Explore the birthplace of reggae and patois — a vibrant Caribbean English dialect full of rhythm and cultural heritage.',
     dialectFocus: 'Jamaican Patois',
@@ -442,7 +442,7 @@ export const COUNTRIES: CountryConfig[] = [
     flag: '🇮🇪',
     region: 'Northern Europe',
     status: 'locked',
-    image: 'https://picsum.photos/seed/irelandcoast2024/800/500',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/TheCliffs_of_Moher.jpg/960px-TheCliffs_of_Moher.jpg',
     description:
       'Discover the Emerald Isle where Irish English (Hiberno-English) carries the rhythm of the Gaelic language and centuries of unique history.',
     dialectFocus: 'Hiberno-English',
@@ -496,3 +496,4 @@ export const COUNTRIES: CountryConfig[] = [
   },
 
 ];
+

@@ -13,6 +13,7 @@ interface LessonPlayerProps {
   lesson: Lesson;
   countryId: string;
   level: Level;
+  initialComplete: boolean;
   onBack: () => void;
 }
 
@@ -56,143 +57,18 @@ function renderInlineLesson(
   }
 }
 
-export function LessonPlayer({ lesson, countryId, level, onBack }: LessonPlayerProps) {
-  const [completed, setCompleted] = useState(false);
-  const [iframeError, setIframeError] = useState(false);
-
-  const handleComplete = async () => {
-    await markLessonComplete(countryId, lesson.id, level);
-    setCompleted(true);
-  };
-
-  const isInline = !!lesson.internalLessonId;
-  const isExternal = !!lesson.url;
-
-  return (
-    <div className="max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-semibold text-sm transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Terug
-        </button>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{lesson.icon}</span>
-            <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
-            {completed && <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />}
-          </div>
-          <p className="text-sm text-slate-500 mt-0.5 ml-9">{lesson.description}</p>
-        </div>
-        {isExternal && (
-          <a
-            href={lesson.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Nieuw venster
-          </a>
-        )}
-      </div>
-
-      {/* Completed banner */}
-      {completed && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-3"
-        >
-          <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-          <div>
-            <p className="text-sm font-bold text-emerald-800">Les voltooid!</p>
-            <p className="text-xs text-emerald-600">Je voortgang is opgeslagen.</p>
-          </div>
-          <button
-            onClick={onBack}
-            className="ml-auto px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold transition-all"
-          >
-            Terug naar module
-          </button>
-        </motion.div>
-      )}
-
-      {/* Inline lesson */}
-      {isInline && !completed && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
-          {renderInlineLesson(lesson.internalLessonId!, handleComplete)}
-        </div>
-      )}
-
-      {/* External iframe */}
-      {isExternal && !isInline && !iframeError && (
-        <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-rose-400" />
-                <div className="w-3 h-3 rounded-full bg-amber-400" />
-                <div className="w-3 h-3 rounded-full bg-emerald-400" />
-              </div>
-              <span className="text-xs text-slate-400 ml-2 font-mono truncate max-w-xs">
-                {lesson.url}
-              </span>
-            </div>
-            {!completed && (
-              <button
-                onClick={handleComplete}
-                className="text-xs font-semibold px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all"
-              >
-                ✓ Markeer als klaar
-              </button>
-            )}
-          </div>
-          <iframe
-            src={lesson.url}
-            title={lesson.title}
-            className="w-full h-[70vh] border-0"
-            onError={() => setIframeError(true)}
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          />
-        </div>
-      )}
-
-      {/* Iframe blocked fallback */}
-      {isExternal && !isInline && iframeError && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center shadow-sm">
-          <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <ExternalLink className="w-8 h-8 text-amber-500" />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">
-            Les opent in een nieuw venster
-          </h3>
-          <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
-            Deze les kan niet ingeklapt worden. Klik hieronder om hem in een nieuw tabblad te openen.
-          </p>
-          <div className="flex gap-3 justify-center">
-            <a
-              href={lesson.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition-all"
-            >
-              Open les →
-            </a>
-            {!completed && (
-              <button
-                onClick={handleComplete}
-                className="px-5 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-sm transition-all"
-              >
-                ✓ Markeer als klaar
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+export function LessonPlayer({ lesson, countryId, level, onBack, initialComplete }: LessonPlayerProps) {
+ const [completed,setCompleted]=useState(initialComplete);
+ const [review,setReview]=useState(false);
+ const [saveError,setSaveError]=useState(''),[saving,setSaving]=useState(false);
+ const handleComplete=async()=>{if(saving)return;setSaving(true);setSaveError('');try{await markLessonComplete(countryId,lesson.id,level);setCompleted(true);setReview(false);}catch(err){setSaveError((err as Error).message);}finally{setSaving(false);}};
+ return <div className="travel-page max-w-4xl">
+   <button onClick={onBack} className="text-button mb-6">Terug naar de lessen</button>
+   <div className="page-intro"><div><p className="eyebrow">YOUR NEXT CHAPTER · {level}</p><h1>{lesson.title}</h1><p>{lesson.description}</p></div><span className="text-4xl">{lesson.icon}</span></div>
+   {saveError&&<p role="alert" className="form-error mb-4">{saveError}</p>}{saving&&<p role="status">Voortgang opslaan...</p>}
+   {completed&&<div role="status" className="content-panel flex flex-wrap items-center gap-4"><CheckCircle className="text-emerald-700"/><div className="flex-1"><h2>Les afgerond!</h2><p>Je voortgang is opgeslagen in je account.</p></div><button className="button button-teal" onClick={onBack}>Verder reizen</button>{lesson.internalLessonId&&<button className="text-button" onClick={()=>setReview(v=>!v)}>{review?'Oefening sluiten':'Nog eens oefenen'}</button>}</div>}
+   {lesson.internalLessonId&&(!completed||review)&&<div className="content-panel">{renderInlineLesson(lesson.internalLessonId,handleComplete)}</div>}
+   {lesson.url&&!lesson.internalLessonId&&<div className="content-panel"><div className="stat-icon mint mb-5"><ExternalLink/></div><h2>Deze les heeft een eigen reiswereld.</h2><p className="mb-6">Open de les in een nieuw tabblad. Kom hier terug wanneer je klaar bent en bewaar je voortgang.</p><div className="flex flex-wrap gap-3"><a className="button button-teal" href={lesson.url} target="_blank" rel="noopener noreferrer"><ExternalLink size={18}/>Open les</a>{!completed&&<button className="button bg-slate-100 text-slate-700" onClick={handleComplete}>Ik heb de les afgerond</button>}</div></div>}
+ </div>;
 }
+

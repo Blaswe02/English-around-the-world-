@@ -1,173 +1,23 @@
-import { Plane, ChevronRight, Globe, BookOpen } from 'lucide-react';
-import { motion } from 'motion/react';
-import { ProgressCard } from './ProgressCard';
+import { Globe2, BookOpen, Compass, MapPin, Headphones, MessagesSquare, PenLine, Stamp } from 'lucide-react';
+import { CountryCard } from '../Countries/CountryCard';
+import { useAuth } from '../../auth/AuthProvider';
 import type { CountryConfig, CountryStatus, Level, NavItem } from '../../types/curriculum';
-
-interface DashboardHomeProps {
-  level: Level;
-  countries: CountryConfig[];
-  currentCountry: CountryConfig;
-  getCountryStatus: (country: CountryConfig) => CountryStatus;
-  isLessonComplete: (countryId: string, lessonId: string) => boolean;
-  onCountryClick: (country: CountryConfig) => void;
-  onNavigate: (nav: NavItem) => void;
+interface Props { level: Level; countries: CountryConfig[]; currentCountry: CountryConfig; getCountryStatus: (c: CountryConfig) => CountryStatus; isLessonComplete: (c: string,l: string) => boolean; onCountryClick: (c: CountryConfig) => void; onNavigate: (n: NavItem) => void; }
+export function DashboardHome({ level, countries, currentCountry, getCountryStatus, isLessonComplete, onCountryClick, onNavigate }: Props) {
+  const {profile}=useAuth();
+  const available = currentCountry.lessons.filter(l => l.levels.includes(level) && (l.url || l.internalLessonId));
+  const done = available.filter(l => isLessonComplete(currentCountry.id,l.id)).length;
+  const totalDone = countries.reduce((n,c) => n + c.lessons.filter(l => l.levels.includes(level) && isLessonComplete(c.id,l.id)).length,0);
+  return <div className="travel-page dashboard">
+    <div className="page-intro"><div><p className="eyebrow">LET'S EXPLORE</p><h1>Hey {profile?.display_name || 'reiziger'}, klaar voor vertrek?</h1><p>Ontdek de wereld. Ontmoet nieuwe verhalen. Groei in Engels.</p></div><span className="edition-tag"><Compass size={17}/> Het avontuur begint bij jou</span></div>
+    <section className="destination-hero" aria-labelledby="hero-title">
+      <img src={currentCountry.image} alt="Skyline van Singapore aan Marina Bay" fetchPriority="high"/><div className="hero-shade"/>
+      <div className="hero-copy"><span className="hero-kicker"><span/> JOUW HUIDIGE BESTEMMING</span><p className="hero-location"><MapPin size={15}/> {currentCountry.region}</p><h2 id="hero-title">Next stop:<br/><em>{currentCountry.title}.</em></h2><p>Street food, skyline & Singlish.<br/>Een nieuwe wereld. Een nieuw verhaal.</p><button className="button button-coral" onClick={() => onCountryClick(currentCountry)}><Compass size={19}/> {done ? 'Verder met mijn reis' : 'Ontdek Singapore'}</button></div>
+      <div className="boarding-pass"><div><span>JOUW BOARDING PASS</span><strong>AMS <small>✈</small> SIN</strong></div><div className="boarding-detail"><p>NIVEAU<strong>{level}</strong></p><p>LESSEN KLAAR<strong>{done} / {available.length}</strong></p></div><div className="boarding-progress"><i style={{width: `${available.length ? done/available.length*100 : 0}%`}}/></div></div>
+    </section>
+    <div className="journey-stats"><div><span className="stat-icon mint"><Globe2/></span><p><strong>{countries.length}</strong><span>bestemmingen om te ontdekken</span></p></div><div><span className="stat-icon peach"><BookOpen/></span><p><strong>{totalDone}</strong><span>lessen afgerond op {level.toLowerCase()}</span></p></div><button onClick={() => onNavigate('passport')}><span className="stat-icon lilac"><Stamp/></span><p><strong>Mijn paspoort</strong><span>Bekijk je culturele reis</span></p></button></div>
+    <section><div className="section-heading"><div><p className="eyebrow">EEN WERELD AAN MOGELIJKHEDEN</p><h2>Kies je volgende verhaal</h2></div><button className="text-button" onClick={() => onNavigate('eaatw')}>Alle bestemmingen</button></div><div className="destination-grid">{countries.slice(0,3).map((c,i) => <CountryCard key={c.id} country={c} status={getCountryStatus(c)} level={level} index={i} onClick={() => onCountryClick(c)}/>)}</div></section>
+    <section className="learning-strip"><div><p className="eyebrow">MEER DAN WOORDJES LEREN</p><h2>Gebruik Engels in de echte wereld.</h2><p>Lees, luister, praat en schrijf terwijl je nieuwe plekken ontdekt.</p></div><div className="skill-islands">{[{icon:BookOpen,label:'Read'},{icon:Headphones,label:'Listen'},{icon:MessagesSquare,label:'Speak'},{icon:PenLine,label:'Write'}].map(({icon:Icon,label}) => <div key={label}><Icon size={23}/><span>{label}</span></div>)}</div></section>
+  </div>;
 }
 
-export function DashboardHome({
-  level,
-  countries,
-  currentCountry,
-  getCountryStatus,
-  isLessonComplete,
-  onCountryClick,
-  onNavigate,
-}: DashboardHomeProps) {
-  const completedCount = countries.filter(
-    (c) => getCountryStatus(c) === 'completed',
-  ).length;
-
-  const totalLessons = countries.reduce(
-    (sum, c) => sum + c.lessons.filter((l) => l.levels.includes(level)).length,
-    0,
-  );
-
-  const currentLessons = currentCountry.lessons.filter((l) => l.levels.includes(level));
-
-  return (
-    <motion.div
-      key="dashboard"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="max-w-6xl mx-auto"
-    >
-      {/* Welcome */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900">Welkom terug!</h2>
-        <p className="text-slate-500 mt-1 font-medium">
-          Klaar om verder te reizen? Niveau:{' '}
-          <strong className="text-slate-700">{level}</strong>
-        </p>
-      </div>
-
-      {/* Top row: current destination + progress */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Current destination card */}
-        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col md:flex-row">
-          <div className="md:w-5/12 relative h-48 md:h-auto shrink-0">
-            <img
-              src={currentCountry.image}
-              alt={currentCountry.title}
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent hidden md:block" />
-          </div>
-          <div className="p-8 flex-1 flex flex-col justify-center">
-            <div className="flex items-center gap-2 text-indigo-600 font-bold text-xs uppercase tracking-wider mb-2">
-              <Plane className="w-4 h-4" />
-              <span>Huidige bestemming</span>
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-1">
-              {currentCountry.flag} {currentCountry.title}
-            </h3>
-            <p className="text-slate-500 mb-2 text-sm leading-relaxed">
-              {currentCountry.description}
-            </p>
-            <p className="text-xs text-slate-400 mb-5">
-              {currentLessons.length} les{currentLessons.length !== 1 ? 'sen' : ''} beschikbaar voor niveau {level}
-            </p>
-            <button
-              onClick={() => {
-                onCountryClick(currentCountry);
-                onNavigate('eaatw');
-              }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-indigo-200 self-start"
-            >
-              Doorgaan met leren
-            </button>
-          </div>
-        </div>
-
-        {/* Progress */}
-        <ProgressCard
-          completedCount={completedCount}
-          totalCountries={countries.length}
-          totalLessons={totalLessons}
-          level={level}
-        />
-      </div>
-
-      {/* Countries overview */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-slate-900">Alle bestemmingen</h3>
-          <button
-            onClick={() => onNavigate('eaatw')}
-            className="text-indigo-600 font-bold text-sm hover:underline flex items-center gap-1"
-          >
-            Bekijk alle <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {countries.map((country) => {
-            const status = getCountryStatus(country);
-            const lessonCount = country.lessons.filter((l) => l.levels.includes(level)).length;
-            const isUnavailable = status === 'locked' || status === 'future';
-            return (
-              <button
-                key={country.id}
-                onClick={() => {
-                  onCountryClick(country);
-                  if (!isUnavailable) onNavigate('eaatw');
-                }}
-                className={`p-4 rounded-xl border text-left transition-all ${
-                  isUnavailable
-                    ? 'border-slate-200 opacity-60 cursor-not-allowed'
-                    : 'border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 cursor-pointer'
-                }`}
-              >
-                <div className="text-2xl mb-2">{country.flag}</div>
-                <p className="font-bold text-sm text-slate-900">{country.title}</p>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  {lessonCount > 0 ? `${lessonCount} lessen` : 'Geen lessen'}
-                </p>
-                <div
-                  className={`mt-2 text-xs font-bold uppercase tracking-wider ${
-                    status === 'completed'
-                      ? 'text-emerald-600'
-                      : status === 'current'
-                        ? 'text-indigo-600'
-                        : status === 'development'
-                          ? 'text-amber-600'
-                          : 'text-slate-400'
-                  }`}
-                >
-                  {status === 'completed' && '✓ Voltooid'}
-                  {status === 'current' && '→ Actief'}
-                  {status === 'development' && '⚙ In ontwikkeling'}
-                  {status === 'locked' && '🔒 Vergrendeld'}
-                  {status === 'future' && '🔜 Binnenkort'}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* EAATW intro blurb */}
-      <div className="mt-6 p-6 bg-indigo-50 rounded-2xl flex items-start gap-4">
-        <Globe className="w-6 h-6 text-indigo-600 shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-bold text-indigo-900 mb-1">
-            English Around The World — Haarlem College
-          </p>
-          <p className="text-sm text-indigo-700 leading-relaxed">
-            In dit project reis je virtueel door Engelssprekende landen. Elke module heeft lessen,
-            opdrachten, cultuurvocabulaire en een eigen dialect. Kies een land en begin je reis!
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}

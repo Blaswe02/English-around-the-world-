@@ -8,6 +8,7 @@ import type { CountryConfig, Lesson, Level } from '../../types/curriculum';
 type DetailTab = 'lessons' | 'passport' | 'teacher';
 
 interface CountryDetailProps {
+  isTeacher?: boolean;
   country: CountryConfig;
   level: Level;
   isLessonComplete: (countryId: string, lessonId: string) => boolean;
@@ -15,7 +16,7 @@ interface CountryDetailProps {
   onLessonClick: (lesson: Lesson) => void;
 }
 
-export function CountryDetail({ country, level, isLessonComplete, onBack, onLessonClick }: CountryDetailProps) {
+export function CountryDetail({ country, level, isTeacher=false, isLessonComplete, onBack, onLessonClick }: CountryDetailProps) {
   const [activeTab, setActiveTab] = useState<DetailTab>('lessons');
 
   const tabs: { id: DetailTab; label: string; icon: React.ElementType }[] = [
@@ -78,8 +79,8 @@ export function CountryDetail({ country, level, isLessonComplete, onBack, onLess
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6 border-b border-slate-200 pb-1">
-        {tabs.map((tab) => (
+      <div className="lesson-tabs flex gap-2 mb-6 border-b border-slate-200 pb-1">
+        {tabs.filter(tab=>tab.id!=='teacher'||isTeacher).map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -98,7 +99,7 @@ export function CountryDetail({ country, level, isLessonComplete, onBack, onLess
       {/* ── Lessons Tab ── */}
       {activeTab === 'lessons' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {country.lessons.map((lesson, i) => (
+          {country.lessons.filter(l => isTeacher || l.levels.includes(level)).map((lesson, i) => (
             <LessonCard
               key={lesson.id}
               lesson={lesson}
@@ -159,7 +160,7 @@ export function CountryDetail({ country, level, isLessonComplete, onBack, onLess
       )}
 
       {/* ── Teacher Tab ── */}
-      {activeTab === 'teacher' && (
+      {activeTab === 'teacher' && isTeacher && (
         <div className="space-y-6">
           <div className="p-6 bg-amber-50 border border-amber-100 rounded-2xl">
             <h3 className="font-bold text-amber-800 mb-1 text-sm">Docentenoverzicht</h3>
@@ -233,3 +234,4 @@ export function CountryDetail({ country, level, isLessonComplete, onBack, onLess
     </motion.div>
   );
 }
+

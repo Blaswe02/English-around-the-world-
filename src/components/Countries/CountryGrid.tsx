@@ -1,50 +1,8 @@
-import { motion } from 'motion/react';
+import { Globe2 } from 'lucide-react';
 import { CountryCard } from './CountryCard';
-import type { CountryConfig, CountryStatus, Level } from '../../types/curriculum';
-
-interface CountryGridProps {
-  countries: CountryConfig[];
-  level: Level;
-  getCountryStatus: (country: CountryConfig) => CountryStatus;
-  onCountryClick: (country: CountryConfig) => void;
+import type { CountryConfig,CountryStatus,Level } from '../../types/curriculum';
+interface Props { countries:CountryConfig[]; level:Level; getCountryStatus:(c:CountryConfig)=>CountryStatus; onCountryClick:(c:CountryConfig)=>void; }
+export function CountryGrid({countries,level,getCountryStatus,onCountryClick}:Props) {
+  return <div className="travel-page"><div className="page-intro"><div><p className="eyebrow">YOUR WORLD IS WAITING</p><h1>Waar begint jouw verhaal?</h1><p>Ontdek de bestemmingen en bekijk welke lessen al klaarstaan.</p></div><Globe2 size={42} className="text-teal-700"/></div><div className="destination-grid">{countries.map((c,i)=><CountryCard key={c.id} country={c} status={getCountryStatus(c)} level={level} index={i} onClick={()=>onCountryClick(c)}/>)}</div></div>;
 }
 
-export function CountryGrid({
-  countries,
-  level,
-  getCountryStatus,
-  onCountryClick,
-}: CountryGridProps) {
-  return (
-    <motion.div
-      key="eaatw-list"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="max-w-6xl mx-auto"
-    >
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-          English Around The World
-        </h2>
-        <p className="text-slate-500 mt-1 font-medium">
-          Ontdek Engelse dialecten en culturen over de hele wereld.{' '}
-          <strong className="text-slate-700">Niveau: {level}</strong>
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {countries.map((country, index) => (
-          <CountryCard
-            key={country.id}
-            country={country}
-            status={getCountryStatus(country)}
-            level={level}
-            index={index}
-            onClick={() => onCountryClick(country)}
-          />
-        ))}
-      </div>
-    </motion.div>
-  );
-}

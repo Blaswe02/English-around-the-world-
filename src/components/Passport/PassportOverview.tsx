@@ -110,3 +110,4 @@ export function PassportOverview({ countries, level, getCountryStatus }: Passpor
     </motion.div>
   );
 }
+

@@ -51,3 +51,4 @@ export const SKILL_COLORS: Record<Skill, string> = {
   culture: 'bg-pink-50 text-pink-600 border-pink-100',
   reflection: 'bg-teal-50 text-teal-600 border-teal-100',
 };
+

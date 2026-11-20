@@ -1,65 +1,18 @@
 import { supabase } from './supabase';
-
-const SESSION_KEY = 'eaatw_session_key';
-
-export function getSessionKey(): string | null {
-  return localStorage.getItem(SESSION_KEY);
+export function readLocal(key:string):string|null{try{return localStorage.getItem(key);}catch{return null;}}
+export function writeLocal(key:string,value:string):void{try{localStorage.setItem(key,value);}catch{/* Preferences are optional. */}}
+export async function loadProgress(level:string):Promise<Set<string>>{
+ if(!supabase)throw new Error('De accountverbinding is niet beschikbaar.');
+ const {data:{user},error:authError}=await supabase.auth.getUser();
+ if(authError||!user)throw new Error('Log opnieuw in om je voortgang op te halen.');
+ const {data,error}=await supabase.from('learner_progress').select('country_id,lesson_id').eq('user_id',user.id).eq('level',level);
+ if(error)throw new Error('Je voortgang kon niet worden opgehaald. Probeer opnieuw.');
+ return new Set(data.map(row=>`${row.country_id}__${row.lesson_id}`));
 }
-
-export function setSessionKey(nickname: string): void {
-  localStorage.setItem(SESSION_KEY, nickname.trim().toLowerCase());
-}
-
-// ── localStorage helpers (instant, always available) ──────────────────────────
-
-function lsKey(countryId: string, lessonId: string, level: string) {
-  return `eaatw_done_${countryId}_${lessonId}_${level}`;
-}
-
-function markLocalComplete(countryId: string, lessonId: string, level: string) {
-  localStorage.setItem(lsKey(countryId, lessonId, level), 'true');
-}
-
-export function isLocallyComplete(countryId: string, lessonId: string, level: string): boolean {
-  return localStorage.getItem(lsKey(countryId, lessonId, level)) === 'true';
-}
-
-// ── Supabase sync ─────────────────────────────────────────────────────────────
-
-export async function markLessonComplete(
-  countryId: string,
-  lessonId: string,
-  level: string,
-): Promise<void> {
-  // Always write to localStorage first (instant feedback)
-  markLocalComplete(countryId, lessonId, level);
-
-  const sessionKey = getSessionKey();
-  if (!sessionKey) return;
-
-  await supabase.from('lesson_progress').upsert(
-    { session_key: sessionKey, country_id: countryId, lesson_id: lessonId, level },
-    { onConflict: 'session_key,country_id,lesson_id,level' },
-  );
-}
-
-export async function loadProgressFromSupabase(level: string): Promise<Set<string>> {
-  const sessionKey = getSessionKey();
-  const done = new Set<string>();
-  if (!sessionKey) return done;
-
-  const { data } = await supabase
-    .from('lesson_progress')
-    .select('country_id,lesson_id')
-    .eq('session_key', sessionKey)
-    .eq('level', level);
-
-  data?.forEach((row) => done.add(`${row.country_id}__${row.lesson_id}`));
-  return done;
-}
-
-// ── Country completion (for status badge) ─────────────────────────────────────
-
-export function markCountryComplete(countryId: string, level: string) {
-  localStorage.setItem(`eaatw_${countryId}_completed_${level}`, 'true');
+export async function markLessonComplete(countryId:string,lessonId:string,level:string):Promise<void>{
+ if(!supabase)throw new Error('De accountverbinding is niet beschikbaar.');
+ const {data:{user},error:authError}=await supabase.auth.getUser();
+ if(authError||!user)throw new Error('Log opnieuw in om je voortgang op te slaan.');
+ const {error}=await supabase.from('learner_progress').upsert({user_id:user.id,country_id:countryId,lesson_id:lessonId,level},{onConflict:'user_id,country_id,lesson_id,level'});
+ if(error)throw new Error('Opslaan is niet gelukt. Probeer opnieuw; je les is nog niet opgeslagen.');
 }

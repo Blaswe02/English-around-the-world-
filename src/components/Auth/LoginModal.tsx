@@ -1,0 +1,12 @@
+import { useState } from 'react';
+import { LockKeyhole, X } from 'lucide-react';
+import { useDialogFocus } from '../UI/useDialogFocus';
+import { supabase } from '../../services/supabase';
+import { loginEmail } from '../../auth/identity';
+export function LoginModal({onClose,onSuccess,message}:{onClose:()=>void;onSuccess:()=>void;message?:string}){
+ const ref=useDialogFocus(onClose);const [username,setUsername]=useState(''),[password,setPassword]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ return <div className="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4"><div ref={ref} role="dialog" aria-modal="true" aria-labelledby="login-title" className="auth-dialog"><button className="auth-close" aria-label="Inlogvenster sluiten" onClick={onClose}><X size={21}/></button><div className="auth-dialog-heading"><LockKeyhole size={30}/><p className="eyebrow">JOUW PERSOONLIJKE LEERREIS</p><h2 id="login-title">Welkom terug, reiziger.</h2><p>{message||'Log in en reis verder waar je gebleven was.'}</p></div><form className="auth-form" onSubmit={async e=>{e.preventDefault();setError('');setBusy(true);try{if(!supabase)throw new Error('Het inlogportaal wordt nog aangesloten. Probeer later opnieuw.');const email=loginEmail(username);const {error}=await supabase.auth.signInWithPassword({email,password});if(error)throw new Error(error.code==='email_not_confirmed'?'Je account is nog niet bevestigd. Vraag je docent of beheerder om het te activeren.':'Inloggen lukt niet. Controleer je leerlingnaam of e-mailadres en wachtwoord.');setPassword('');onSuccess();}catch(err){setError(err instanceof Error?err.message:'Inloggen is niet gelukt.');}finally{setBusy(false);}}}>
+ <label htmlFor="login-username">Leerlingnaam of docent-e-mailadres</label><input id="login-username" autoComplete="username" autoCapitalize="none" spellCheck={false} required value={username} onChange={e=>setUsername(e.target.value)} placeholder="Leerlingnaam of e-mailadres"/>
+ <label htmlFor="login-password">Wachtwoord</label><input id="login-password" type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)}/>
+ {error&&<p role="alert" className="form-error">{error}</p>}<button className="button button-teal" disabled={busy||!supabase}>{busy?'Bezig met inloggen…':'Inloggen'}</button><p className="auth-help">Wachtwoord vergeten? Vraag je docent om een nieuw wachtwoord. Je docent maakt jouw account aan.</p></form></div></div>;
+}

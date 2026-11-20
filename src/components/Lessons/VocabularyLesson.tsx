@@ -86,6 +86,11 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
 
         {/* Flashcard */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-label={flipped ? "Toon het Engelse woord" : "Toon de vertaling"}
+          aria-pressed={flipped}
+          onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFlipped(f => !f); } }}
           className="cursor-pointer select-none"
           onClick={() => setFlipped((f) => !f)}
         >
@@ -276,3 +281,4 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
     </motion.div>
   );
 }
+

@@ -25,3 +25,4 @@ export function LevelSelector({ levels, current, onChange }: LevelSelectorProps)
     </div>
   );
 }
+

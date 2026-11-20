@@ -90,3 +90,4 @@ export const DEFAULT_PASSPORT_GATES: Omit<PassportGate, 'id'>[] = [
     stampType: 'archive',
   },
 ];
+

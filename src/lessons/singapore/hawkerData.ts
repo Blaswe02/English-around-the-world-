@@ -20,3 +20,4 @@ export const hawkerQuiz = [
   { question: 'What makes teh tarik special?', options: ['It is served cold', 'It is made from green tea', 'It is poured many times to create foam', 'It is a type of coffee'], correct: 2, explanation: '"Teh tarik" means "pulled tea" — it is poured between containers to mix and create a frothy top.' },
   { question: 'Which dish combines coconut milk rice with sambal and egg?', options: ['Char kway teow', 'Nasi lemak', 'Roti prata', 'Mee goreng'], correct: 1, explanation: 'Nasi lemak is rice cooked in coconut milk, served with spicy sambal, a boiled egg, and anchovies.' },
 ];
+

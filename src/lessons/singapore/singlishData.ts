@@ -21,3 +21,4 @@ export const singlishQuiz = [
   { question: 'What does "lepak" mean?', options: ['To eat a lot', 'To work very hard', 'To relax and hang out without doing much', 'To travel far away'], correct: 2, explanation: '"Lepak" comes from Malay and means to chill, relax, or hang out with no particular plan.' },
   { question: 'Your classmate doesn\'t understand the instructions. How might you describe them in Singlish?', options: ['Very shiok', 'Very blur', 'Very kiasu', 'Very lepak'], correct: 1, explanation: '"Blur" in Singlish means confused, slow to understand, or not paying attention.' },
 ];
+
