@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight, GraduationCap, MapPin, BookOpen, Stamp, BookMarked } from 'lucide-react';
+
 import { motion } from 'motion/react';
 import { LessonCard } from './LessonCard';
 import { DEFAULT_PASSPORT_GATES, STAMP_ICONS, STAMP_LABELS, STAMP_COLORS } from '../../data/passport';
@@ -19,10 +19,10 @@ interface CountryDetailProps {
 export function CountryDetail({ country, level, isTeacher=false, isLessonComplete, onBack, onLessonClick }: CountryDetailProps) {
   const [activeTab, setActiveTab] = useState<DetailTab>('lessons');
 
-  const tabs: { id: DetailTab; label: string; icon: React.ElementType }[] = [
-    { id: 'lessons', label: 'Lessons', icon: BookOpen },
-    { id: 'passport', label: 'Passport', icon: Stamp },
-    { id: 'teacher', label: 'Teacher', icon: BookMarked },
+  const tabs: { id: DetailTab; label: string }[] = [
+    { id: 'lessons', label: 'Lessons' },
+    { id: 'passport', label: 'Passport' },
+    { id: 'teacher', label: 'Teacher' },
   ];
 
   return (
@@ -37,7 +37,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
         onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-slate-900 font-semibold text-sm mb-6 transition-colors"
       >
-        <ChevronRight className="w-4 h-4 rotate-180" />
+        <></>
         All destinations
       </button>
 
@@ -52,10 +52,10 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
         <div className="absolute inset-0 p-8 flex flex-col justify-end">
           <div className="flex items-end gap-4">
-            <span className="text-5xl">{country.flag}</span>
+            
             <div>
               <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                <MapPin className="w-3 h-3" />
+                <></>
                 <span>{country.region}</span>
                 <span className="text-slate-500">·</span>
                 <span>{country.dialectFocus}</span>
@@ -72,7 +72,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
 
       {/* Level notice */}
       <div className="flex items-center gap-3 mb-6 p-4 bg-indigo-50 rounded-xl">
-        <GraduationCap className="w-5 h-5 text-indigo-600 shrink-0" />
+        <></>
         <span className="text-sm font-semibold text-indigo-700">
           Lessons for <strong>{level}</strong>. Your teacher assigns your level and opens your destinations.
         </span>
@@ -90,7 +90,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
                 : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <tab.icon className="w-4 h-4" />
+            
             {tab.label}
           </button>
         ))}
@@ -130,7 +130,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
                 className="p-5 bg-white border border-slate-200 rounded-2xl opacity-60"
               >
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{STAMP_ICONS[gate.stampType]}</span>
+                  
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <h4 className="font-bold text-slate-900 text-sm">{gate.title}</h4>
@@ -213,7 +213,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
                 .filter((l) => l.teacherNote)
                 .map((lesson) => (
                   <div key={lesson.id} className="flex items-start gap-3">
-                    <span className="text-lg shrink-0">{lesson.icon}</span>
+                    
                     <div>
                       <p className="text-sm font-semibold text-slate-800">{lesson.title}</p>
                       <p className="text-xs text-slate-500 leading-relaxed mt-0.5">

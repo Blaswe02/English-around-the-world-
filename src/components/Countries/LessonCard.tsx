@@ -1,4 +1,4 @@
-import { ExternalLink, Clock, CheckCircle } from 'lucide-react';
+
 import { motion } from 'motion/react';
 import { LESSON_TYPE_LABELS, LESSON_TYPE_COLORS, SKILL_LABELS, SKILL_COLORS } from '../../data/lessonTypes';
 import type { Lesson, Level } from '../../types/curriculum';
@@ -31,21 +31,21 @@ export function LessonCard({ lesson, level, index, isComplete, onClick }: Lesson
     >
       <div className="flex items-start gap-4">
         {/* Icon */}
-        <span className="text-3xl shrink-0">{lesson.icon}</span>
+        
 
         <div className="flex-1 min-w-0">
           {/* Title row */}
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="flex items-center gap-2">
               <h4 className="font-bold text-slate-900 leading-snug">{lesson.title}</h4>
-              {isComplete && <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />}
+              {isComplete && <>Completed</>}
             </div>
             {isAvailable ? (
               lesson.internalLessonId
-                ? <span className="text-xs font-bold text-indigo-600 shrink-0 mt-0.5 bg-indigo-50 px-2 py-0.5 rounded-full">Start les</span>
-                : <ExternalLink className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                ? <span className="text-xs font-bold text-indigo-600 shrink-0 mt-0.5 bg-indigo-50 px-2 py-0.5 rounded-full">Start lesson</span>
+                : <>Open lesson</>
             ) : !isForLevel ? (
-              <span className="text-xs text-slate-400 shrink-0 mt-0.5">Ander niveau</span>
+              <span className="text-xs text-slate-400 shrink-0 mt-0.5">Different level</span>
             ) : (
               <span className="text-xs text-slate-400 shrink-0 mt-0.5">Coming soon</span>
             )}
@@ -63,7 +63,7 @@ export function LessonCard({ lesson, level, index, isComplete, onClick }: Lesson
             </span>
             {lesson.estimatedTime && (
               <span className="flex items-center gap-1 text-xs text-slate-400">
-                <Clock className="w-3 h-3" />
+                <></>
                 {lesson.estimatedTime}
               </span>
             )}

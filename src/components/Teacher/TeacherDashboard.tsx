@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { BookMarked, Users, Target, FileText } from 'lucide-react';
+
 import { SKILL_LABELS, SKILL_COLORS } from '../../data/lessonTypes';
 import type { CountryConfig, Level, CountryStatus } from '../../types/curriculum';
 
@@ -36,9 +36,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center">
-            <BookMarked className="w-5 h-5" />
-          </div>
+          
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">
             Curriculum overview
           </h2>
@@ -62,13 +60,11 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
           {
             label: 'Total modules',
             value: countries.length,
-            icon: Target,
             color: 'bg-indigo-50 text-indigo-600',
           },
           {
             label: 'Modules with content',
             value: countries.filter((c) => c.status === 'current' || c.status === 'completed').length,
-            icon: Users,
             color: 'bg-emerald-50 text-emerald-600',
           },
           {
@@ -77,13 +73,11 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
               (sum, c) => sum + c.lessons.filter((l) => l.levels.includes(level)).length,
               0,
             ),
-            icon: BookMarked,
             color: 'bg-blue-50 text-blue-600',
           },
           {
             label: 'Portfolio outputs',
             value: countries.reduce((sum, c) => sum + (c.portfolioOutputs?.length ?? 0), 0),
-            icon: FileText,
             color: 'bg-purple-50 text-purple-600',
           },
         ].map((stat) => (
@@ -92,7 +86,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
             className="bg-white border border-slate-200 rounded-2xl p-5 flex items-center gap-4"
           >
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color}`}>
-              <stat.icon className="w-5 h-5" />
+              
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
@@ -117,7 +111,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
             >
               {/* Country header */}
               <div className="flex items-center gap-4 p-6 border-b border-slate-100">
-                <span className="text-3xl">{country.flag}</span>
+                
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 flex-wrap">
                     <h3 className="text-lg font-bold text-slate-900">{country.title}</h3>
@@ -197,7 +191,7 @@ export function TeacherDashboard({ countries, level }: TeacherDashboardProps) {
                           key={lesson.id}
                           className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"
                         >
-                          <span className="text-xl shrink-0">{lesson.icon}</span>
+                          
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-slate-800 truncate">
                               {lesson.title}

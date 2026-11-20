@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pause, Play } from 'lucide-react';
+
 import { DESTINATION_YEARS } from '../../data/countries';
 
 type Feature = {type:string; properties:{name:string;iso:string}; geometry:object};
@@ -103,7 +103,7 @@ export function LanguageGlobe(){
   <svg ref={svg} viewBox="0 0 420 420" role="img" aria-label="Rotating world globe showing our learning destinations. Coral red: UK, Australia, Canada, USA, India, Ireland, South Africa, New Zealand, Jamaica, Malta and Singapore. Gold: Hawaii, New York, Texas and California. Small destinations are also shown as dots. Drag to turn the globe.">
    <circle cx="210" cy="210" r="183" fill="#164b52"/><path d="M27 210h366M210 27a110 183 0 010 366 110 183 0 010-366" fill="none" stroke="#8bb2a3"/>
   </svg>
-  <div className="language-globe-caption"><span><i/>Our destinations</span><button type="button" onClick={()=>setPaused(v=>!v)} aria-label={paused?'Resume globe rotation':'Pause globe rotation'} title={paused?'Resume rotation':'Pause rotation'}>{paused?<Play size={14}/>:<Pause size={14}/>}</button></div>
+  <div className="language-globe-caption"><span><i/>Our destinations</span><button type="button" onClick={()=>setPaused(v=>!v)} aria-label={paused?'Resume globe rotation':'Pause globe rotation'} title={paused?'Resume rotation':'Pause rotation'}>{paused?<>Resume</>:<>Pause</>}</button></div>
   <p className="language-globe-key"><i/>US state destinations · small destinations shown as dots</p>
   {failed&&<p role="status" className="language-globe-key">The map could not load. Please refresh to try again.</p>}
  </div>;

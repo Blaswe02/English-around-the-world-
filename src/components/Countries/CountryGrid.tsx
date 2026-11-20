@@ -1,4 +1,4 @@
-import { Globe2 } from 'lucide-react';
+
 import { CountryCard } from './CountryCard';
 import { DESTINATION_YEARS } from '../../data/countries';
 import type { CountryConfig, CountryStatus, Level } from '../../types/curriculum';
@@ -14,7 +14,7 @@ export function CountryGrid({ countries, level, getCountryStatus, onCountryClick
   return <div className="travel-page">
     <div className="page-intro">
       <div><p className="eyebrow">YOUR WORLD IS WAITING</p><h1>Where does your story begin?</h1><p>Your destinations, year by year. Each stop is one school period.</p></div>
-      <Globe2 size={42} className="text-teal-700" />
+      <></>
     </div>
     {DESTINATION_YEARS.filter(group => level !== 'HAVO' || group.year <= 3).map(group => {
       const destinations = group.destinations.map(destination => countries.find(country => country.id === destination.id)).filter((country): country is CountryConfig => Boolean(country));

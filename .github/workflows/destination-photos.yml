@@ -1,0 +1,20 @@
+name: Prepare destination photos
+on:
+  pull_request:
+    branches: [claude/eatw-curriculum-refactor-Ls7dP]
+permissions:
+  contents: read
+jobs:
+  photos:
+    strategy:
+      fail-fast: false
+      matrix:
+        year: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python -m pip install Pillow
+      - run: python scripts/prepare-destination-photos.py ${{ matrix.year }}

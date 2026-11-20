@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, RotateCcw, CheckCircle } from 'lucide-react';
+
 import { motion, AnimatePresence } from 'motion/react';
 
 interface VocabItem {
@@ -109,7 +109,7 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
             >
               {!flipped ? (
                 <>
-                  <span className="text-5xl">{card.emoji}</span>
+                  
                   <h3 className="text-2xl font-bold text-slate-900">{card.word}</h3>
                   <p className="text-xs text-slate-400">Tap to flip →</p>
                 </>
@@ -138,21 +138,21 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
             disabled={cardIndex === 0}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 disabled:opacity-30 transition-all font-medium text-sm"
           >
-            <ChevronLeft className="w-4 h-4" /> Previous
+            <></> Previous
           </button>
           <button
             onClick={() => { setCardIndex(0); setFlipped(false); }}
             className="p-2 rounded-xl text-slate-400 hover:bg-slate-100 transition-all"
             title="Restart"
           >
-            <RotateCcw className="w-4 h-4" />
+            <>Restart</>
           </button>
           <button
             onClick={nextCard}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all"
           >
             {cardIndex < vocab.length - 1 ? 'Next' : quiz && quiz.length > 0 ? 'Quiz →' : 'Done →'}
-            <ChevronRight className="w-4 h-4" />
+            <></>
           </button>
         </div>
       </div>
@@ -247,10 +247,10 @@ export function VocabularyLesson({ title, intro, vocab, quiz, onComplete }: Voca
       className="max-w-md mx-auto text-center"
     >
       <div className={`w-20 h-20 ${passed ? 'bg-emerald-50' : 'bg-amber-50'} rounded-3xl flex items-center justify-center mx-auto mb-6`}>
-        <CheckCircle className={`w-10 h-10 ${passed ? 'text-emerald-500' : 'text-amber-500'}`} />
+        <>Completed</>
       </div>
       <h3 className="text-2xl font-bold text-slate-900 mb-2">
-        {passed ? 'Lesson completed! 🎉' : 'Good effort!'}
+        {passed ? 'Lesson completed! ' : 'Good effort!'}
       </h3>
       {quiz && quiz.length > 0 && (
         <p className="text-slate-500 mb-2">

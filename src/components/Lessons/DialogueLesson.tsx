@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckCircle, MessageCircle } from 'lucide-react';
+
 import { motion } from 'motion/react';
 
 interface DialogueLine {
@@ -64,9 +64,9 @@ export function DialogueLesson({ title, intro, dialogues, onComplete }: Dialogue
         className="max-w-md mx-auto text-center"
       >
         <div className="w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-10 h-10 text-emerald-500" />
+          <>Completed</>
         </div>
-        <h3 className="text-2xl font-bold text-slate-900 mb-2">Dialogen voltooid! 🎉</h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-2">Dialogen voltooid! </h3>
         <p className="text-slate-500 mb-8">
           Score: <strong className="text-slate-900">{score}</strong> van alle vragen goed.
         </p>
@@ -108,7 +108,7 @@ export function DialogueLesson({ title, intro, dialogues, onComplete }: Dialogue
         <motion.div key={`read-${dialogueIdx}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div className="bg-white border border-slate-200 rounded-3xl p-6 mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <MessageCircle className="w-4 h-4 text-indigo-500" />
+              <></>
               <h3 className="font-bold text-slate-900 text-sm">{dialogue.title}</h3>
             </div>
             <div className="space-y-3">

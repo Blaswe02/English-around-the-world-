@@ -1,4 +1,4 @@
-import { Globe, BookOpen, Star } from 'lucide-react';
+
 import type { Level } from '../../types/curriculum';
 
 interface ProgressCardProps {
@@ -15,9 +15,9 @@ export function ProgressCard({
   level,
 }: ProgressCardProps) {
   const stats = [
-    { label: 'Landen voltooid', value: `${completedCount} / ${totalCountries}`, icon: Globe },
-    { label: 'Lessons for level', value: `${totalLessons}`, icon: BookOpen },
-    { label: 'Huidig niveau', value: level, icon: Star },
+    { label: 'Landen voltooid', value: `${completedCount} / ${totalCountries}` },
+    { label: 'Lessons for level', value: `${totalLessons}` },
+    { label: 'Huidig niveau', value: level },
   ];
 
   return (
@@ -28,9 +28,7 @@ export function ProgressCard({
           key={stat.label}
           className="flex items-center gap-4 p-3 bg-slate-50 rounded-xl"
         >
-          <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0">
-            <stat.icon className="w-5 h-5" />
-          </div>
+          
           <div>
             <p className="text-xs text-slate-400 font-medium">{stat.label}</p>
             <p className="font-bold text-slate-900">{stat.value}</p>
