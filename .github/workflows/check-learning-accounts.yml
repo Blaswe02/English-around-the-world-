@@ -1,0 +1,19 @@
+name: Check learning accounts
+on:
+  push:
+    branches: [claude/eatw-curriculum-refactor-Ls7dP]
+  pull_request:
+    branches: [claude/eatw-curriculum-refactor-Ls7dP]
+permissions:
+  contents: read
+jobs:
+  accounts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: npm ci
+      - run: node scripts/test-teacher-administration.mjs
+      - run: npm run build

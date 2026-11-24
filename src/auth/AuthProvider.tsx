@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import type { User } from '@supabase/supabase-js';
 import type { Level } from '../types/curriculum';
 import { supabase } from '../services/supabase';
-export type Profile={user_id:string;username:string;display_name:string;role:'student'|'teacher';class_name:string;active:boolean;study_year:number|null;study_level:Level|null};
+export type Profile={user_id:string;username:string;display_name:string;role:'student'|'teacher';class_name:string;active:boolean;is_admin:boolean;study_year:number|null;study_level:Level|null};
 type AuthState={user:User|null;profile:Profile|null;loading:boolean;error:string;refresh:()=>Promise<void>;signOut:()=>Promise<void>};
 const AuthContext=createContext<AuthState|null>(null);
 export function AuthProvider({children}:{children:ReactNode}){
@@ -16,7 +16,7 @@ export function AuthProvider({children}:{children:ReactNode}){
     const {data,error:authError}=await supabase.auth.getUser();
     if(!active||request!==version)return;
     if(authError||!data.user){setUser(null);setProfile(null);setLoading(false);return;}
-    const result=await supabase.from('learning_profiles').select('user_id,username,display_name,role,class_name,active,study_year,study_level').eq('user_id',data.user.id).single();
+    const result=await supabase.from('learning_profiles').select('user_id,username,display_name,role,class_name,active,is_admin,study_year,study_level').eq('user_id',data.user.id).single();
     if(!active||request!==version)return;
     if(result.error||!result.data?.active){setUser(null);setProfile(null);setError('Your account is not active yet. Ask your teacher for help.');}
     else{setUser(data.user);setProfile(result.data as Profile);setError('');}

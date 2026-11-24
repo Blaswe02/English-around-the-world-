@@ -16,13 +16,13 @@ Deno.serve(async(req:Request)=>{
  const admin=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
  const {data:{user},error:authError}=await admin.auth.getUser(token);
  if(authError||!user)return reply(401,{error:'Please log in again.'});
- const {data:actor,error:profileError}=await admin.from('learning_profiles').select('user_id,role,username,active,session_valid_after').eq('user_id',user.id).single();
+ const {data:actor,error:profileError}=await admin.from('learning_profiles').select('user_id,role,username,active,is_admin,session_valid_after').eq('user_id',user.id).single();
  let iat=0;try{iat=Number(JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).iat)||0;}catch{return reply(401,{error:'Please log in again.'});}
  if(profileError||!actor?.active||iat*1000<new Date(actor.session_valid_after).getTime())return reply(403,{error:'Your account or session is inactive. Please log in again.'});
  let body;try{const raw=await req.text();if(raw.length>8192)return reply(413,{error:'The request is too large.'});body=JSON.parse(raw);}catch{return reply(400,{error:'Invalid request.'});}
  if(!body||typeof body!=='object')return reply(400,{error:'Invalid request.'});
  const password=body.password;
- if(body.action!=='update_student_enrolment'&&(typeof password!=='string'||password.length<10||password.length>128))return reply(400,{error:'Use a password with 10 to 128 characters.'});
+ if(['change_own_password','create_student','reset_student_password'].includes(body.action)&&(typeof password!=='string'||password.length<10||password.length>128))return reply(400,{error:'Use a password with 10 to 128 characters.'});
  const invalidate=async(id:string)=>{
   const cutoff=new Date((Math.floor(Date.now()/1000)+1)*1000).toISOString();
   const {error}=await admin.from('learning_profiles').update({session_valid_after:cutoff}).eq('user_id',id);
@@ -41,6 +41,45 @@ Deno.serve(async(req:Request)=>{
    }finally{await verifier.auth.signOut({scope:'local'});}
    return reply(200,{success:true,reauthenticate:true});
   }
+
+  // A verified active server-side profile is the sole source of administration rights.
+  // Neither request fields nor JWT user metadata can grant these permissions.
+  if(['list_teachers','create_teacher','reset_teacher_password'].includes(body.action)){
+   if(actor.role!=='teacher'||actor.is_admin!==true)return reply(403,{error:'Only administrators can manage teacher accounts.'});
+   const temporaryPassword=()=>{const bytes=crypto.getRandomValues(new Uint8Array(18));return 'HC!'+btoa(String.fromCharCode(...bytes));};
+   if(body.action==='list_teachers'){
+    const {data:profiles,error}=await admin.from('learning_profiles').select('user_id,display_name,active,is_admin').eq('role','teacher').order('display_name');
+    if(error)throw new Error('teacher_list_failed');
+    const teachers=await Promise.all((profiles||[]).map(async(profile)=>{
+     const {data,error}=await admin.auth.admin.getUserById(profile.user_id);
+     if(error)throw new Error('teacher_list_failed');
+     return {...profile,email:data.user?.email||''};
+    }));
+    return reply(200,{teachers});
+   }
+   if(body.action==='create_teacher'){
+    const email=typeof body.email==='string'?body.email.trim().toLowerCase():'';
+    const displayName=typeof body.display_name==='string'?body.display_name.trim():'';
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254||email.endsWith('@accounts.eatw.invalid')||!displayName||displayName.length>60)return reply(400,{error:'Enter a valid email address and display name.'});
+    const generated=temporaryPassword();
+    const {data,error}=await admin.auth.admin.createUser({email,password:generated,email_confirm:true,app_metadata:{eatw_managed:true}});
+    if(error||!data.user)return reply(409,{error:'This email already has an account or could not be created.'});
+    const {error:profileError}=await admin.from('learning_profiles').insert({user_id:data.user.id,username:'teacher-'+data.user.id.replace(/-/g,'').slice(0,20),display_name:displayName,role:'teacher',is_admin:false});
+    if(profileError){await admin.auth.admin.deleteUser(data.user.id);return reply(500,{error:'Could not create the teacher profile. Please try again.'});}
+    return reply(201,{success:true,email,temporary_password:generated});
+   }
+   if(typeof body.user_id!=='string'||!/^[-a-f0-9]{36}$/i.test(body.user_id))return reply(400,{error:'Choose a teacher.'});
+   const {data:target,error:targetError}=await admin.from('learning_profiles').select('user_id,role,is_admin,active').eq('user_id',body.user_id).single();
+   if(targetError||!target||target.role!=='teacher'||target.is_admin||target.user_id===user.id)return reply(403,{error:'Administrator passwords must be changed in Settings.'});
+   const generated=temporaryPassword();
+   const {data:targetAuth,error:lookupError}=await admin.auth.admin.getUserById(target.user_id);
+   if(lookupError||!targetAuth.user?.email)throw new Error('teacher_lookup_failed');
+   await invalidate(target.user_id);
+   const {error}=await admin.auth.admin.updateUserById(target.user_id,{password:generated});
+   if(error)throw new Error('teacher_password_failed');
+   return reply(200,{success:true,email:targetAuth.user.email,temporary_password:generated});
+  }
+
   if(actor.role!=='teacher')return reply(403,{error:'Only teachers can manage accounts.'});
   const studyYear=Number(body.study_year),studyLevel=body.study_level;
   const validEnrolment=Number.isInteger(studyYear)&&['BASIS','KADER','MAVO','HAVO'].includes(studyLevel)&&studyYear>=1&&studyYear<=(studyLevel==='HAVO'?3:4);

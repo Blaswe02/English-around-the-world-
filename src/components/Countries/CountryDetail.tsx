@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
 import { motion } from 'motion/react';
+import { DestinationMaterials } from './DestinationMaterials';
 import { LessonCard } from './LessonCard';
 import { DEFAULT_PASSPORT_GATES, STAMP_ICONS, STAMP_LABELS, STAMP_COLORS } from '../../data/passport';
 import type { CountryConfig, Lesson, Level } from '../../types/curriculum';
 
-type DetailTab = 'lessons' | 'passport' | 'teacher';
+type DetailTab = 'lessons' | 'handouts' | 'extra' | 'passport' | 'teacher';
 
 interface CountryDetailProps {
   isTeacher?: boolean;
@@ -21,6 +22,8 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
 
   const tabs: { id: DetailTab; label: string }[] = [
     { id: 'lessons', label: 'Lessons' },
+    { id: 'handouts', label: 'Keyterms & handouts' },
+    { id: 'extra', label: 'Extra materials' },
     { id: 'passport', label: 'Passport' },
     { id: 'teacher', label: 'Teacher' },
   ];
@@ -112,6 +115,7 @@ export function CountryDetail({ country, level, isTeacher=false, isLessonComplet
         </div>
       )}
 
+      {(activeTab==='handouts'||activeTab==='extra')&&<DestinationMaterials key={activeTab} countryId={country.id} countryTitle={country.title} category={activeTab==='handouts'?'handout':'extra'} level={level} isTeacher={isTeacher}/>}
       {/* ── Passport Tab ── */}
       {activeTab === 'passport' && (
         <div>
