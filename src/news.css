@@ -107,3 +107,9 @@
 .journal-archive-item[open] .journal-archive-read{display:none}
 .journal-archive-content{padding:0 4px 24px;font-size:16px;line-height:1.8;color:#344e45;white-space:pre-wrap;overflow-wrap:anywhere}
 .journal-archive-content .journal-update-body{font-size:16px}
+
+/* User-supplied screenshots: retain the complete UI and globe without cropping. */
+.journal-art-screenshot{background:#f4f7f8}
+.journal-art-screenshot:after{display:none}
+.journal-art-screenshot img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#f4f7f8}
+@media(min-width:1200px){.journal-art-screenshot img{position:absolute;inset:0}}
